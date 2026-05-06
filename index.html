@@ -565,6 +565,7 @@ function bigCard(t,key){
       <div class="card-actions">
         ${airBtn}
         <button class="act-btn ${isDone?'':'done-btn'}" onclick="event.stopPropagation();toggleDone('${key}','${t.id}')">${isDone?'↩ בטל':'✓ הושלם'}</button>
+        <button class="act-btn" style="border-color:#fdcb6e;color:#b8860b;background:#fffbea" onclick="event.stopPropagation();followUp('${key}','${t.id}')" title="העבר למחר כ-Follow Up">📅 מחר</button>
         <button class="act-btn edit-btn" onclick="event.stopPropagation();openEdit('${key}','${t.id}')">✏️</button>
         <button class="act-btn del-btn" onclick="event.stopPropagation();delTask('${key}','${t.id}')">🗑</button>
       </div>
@@ -573,6 +574,25 @@ function bigCard(t,key){
 }
 
 function toggleDone(key,id){const ts=getTasks(key);const t=ts.find(x=>x.id===id);if(t){t.done=!t.done;setTasks(key,ts);}render();}
+
+function followUp(key,id){
+  const t=getTasks(key).find(x=>x.id===id); if(!t)return;
+  const tomorrow=new Date(key); tomorrow.setDate(tomorrow.getDate()+1);
+  const tKey=formatKey(tomorrow);
+  const ts=getTasks(tKey);
+  const title=t.title.replace(/^🔄 /,'');
+  if(!ts.find(x=>x.title==='🔄 Follow Up: '+title)){
+    ts.push({...t,id:uid(),title:'🔄 Follow Up: '+title,done:false,recurring:'none',time:t.time||''});
+    setTasks(tKey,ts);
+  }
+  // Show confirmation
+  const btn=event.target;
+  const orig=btn.textContent;
+  btn.textContent='✅ נוסף!';
+  btn.style.borderColor='var(--done)';
+  btn.style.color='var(--done)';
+  setTimeout(()=>{btn.textContent=orig;btn.style.borderColor='#fdcb6e';btn.style.color='#b8860b';},1500);
+}
 function delTask(key,id){if(!confirm('למחוק?'))return;setTasks(key,getTasks(key).filter(x=>x.id!==id));render();}
 
 // ── WEEK VIEW ──
@@ -898,7 +918,40 @@ async function genEmail(key,taskId){
     return;
   }
 
-  // Booking task – parse raw text and output exact format
+  // Group hotel request – detected from note keywords
+  const isGroupRequest=/quote.*room|rooms.*quote|\d+\s*rooms?|קבוצה.*חדר|חדר.*קבוצה/i.test(note||t.title);
+  if(!isAirline && isGroupRequest){
+    const roomsMatch=(note||t.title).match(/(\d+)\s*rooms?/i);
+    const rooms=roomsMatch?roomsMatch[1]:'';
+    const destMatch=(note||'').match(/(?:destination|יעד)[:\s]+([^\n]+)/i);
+    const dest=destMatch?destMatch[1].trim():'';
+    const datesMatch=(note||'').match(/(?:dates?|תאריכים?)[:\s]+([^\n]+)/i);
+    const dates=datesMatch?datesMatch[1].trim():'';
+    const roomTypeMatch=(note||'').match(/(?:room type|סוג חדר)[:\s]+([^\n]+)/i);
+    const roomType=roomTypeMatch?roomTypeMatch[1].trim():'';
+    const locationMatch=(note||'').match(/(?:hotel.*?(?:near|close|within|from)|location|address)[:\s]+([^\n]+)/i);
+    const location=locationMatch?locationMatch[1].trim():'';
+    const bfMatch=/breakfast.*included|included.*breakfast|כולל ארוחת בוקר/i.test(note||'');
+
+    const bodyLines=[];
+    bodyLines.push(`I would love your help with a quote for ${rooms?rooms+' GROUP ROOMS':'GROUP ROOMS'}.`);
+    bodyLines.push('');
+    bodyLines.push('Here are the details:');
+    bodyLines.push('');
+    if(dest)      bodyLines.push(`Destination: ${dest}`);
+    if(location)  bodyLines.push(`Hotel location: ${location}`);
+    if(dates)     bodyLines.push(`Dates: ${dates}`);
+    if(rooms)     bodyLines.push(`Number of rooms: ${rooms}`);
+    if(roomType)  bodyLines.push(`Room type: ${roomType}`);
+    if(bfMatch)   bodyLines.push(`Breakfast: Included`);
+    bodyLines.push('');
+    bodyLines.push('Please let me know if you need any additional details.');
+
+    showEmail(t,{lang:'en',to:'groups@hotel.com',
+      subject:`Group Quote Request – ${rooms?rooms+' Rooms – ':''}${dest||t.title}`,
+      body:bodyLines.join('\n').trim()});
+    return;
+  }
   if(t.cat==='booking'){
     const raw=t.bookingRaw||t.note||'';
     const lines=raw.split('\n').map(s=>s.trim()).filter(Boolean);
@@ -1100,36 +1153,38 @@ async function genEmail(key,taskId){
     const pnr=t.pnr||'N/A';
     const request=note||t.title;
 
-    // Detect request type from note keywords
     const isWCHR   = /wchr|wheelchair|כיסא גלגל/i.test(request);
     const isAVIH   = /avih|dog|cat|pet|כלב|חתול|כלוב|cage/i.test(request);
-    const isCancel = /cancel|ביטול/i.test(request);
     const isSSR    = /ssr|special service/i.test(request);
+    const isCancel = /cancel|ביטול/i.test(request);
     const isName   = /name change|שינוי שם/i.test(request);
 
     let subject='';
     if(isWCHR)        subject=`WCHR Request – PNR ${pnr} – ${pax}`;
-    else if(isAVIH)   subject=`AVIH / Pet Update – PNR ${pnr} – ${pax}`;
-    else if(isSSR)    subject=`SSR Amendment Request – PNR ${pnr}`;
-    else if(isCancel) subject=`Cancellation Request – PNR ${pnr} – ${pax}`;
-    else if(isName)   subject=`Name Change Request – PNR ${pnr}`;
-    else              subject=`PNR ${pnr} – ${pax} – Service Request`;
+    else if(isAVIH)   subject=`AVIH Update – PNR ${pnr}`;
+    else if(isSSR)    subject=`SSR Amendment – PNR ${pnr}`;
+    else if(isCancel) subject=`Cancellation Request – PNR ${pnr}`;
+    else if(isName)   subject=`Name Change – PNR ${pnr}`;
+    else              subject=`PNR ${pnr} – Service Request`;
 
-    // Build body from note – translate Hebrew keywords to English phrases
+    // Translate Hebrew request to English
     let bodyContent=request
-      .replace(/כלב נפטר|הכלב נפטר/g,'one of the dogs has unfortunately passed away')
-      .replace(/לעדכן|לשנות|לתקן/g,'please update')
-      .replace(/במקום/g,'instead of')
-      .replace(/כלוב|כלובים/g,'cage(s)')
-      .replace(/בטן המטוס/g,'in the aircraft hold')
-      .replace(/תודה רבה/g,'')
-      .replace(/מיה|מאיה/g,'')
+      .replace(/כלב נפטר|הכלב נפטר/gi,'the dog has passed away')
+      .replace(/חתול|חתולים/gi,'cat(s)')
+      .replace(/כלב|כלבים/gi,'dog(s)')
+      .replace(/לעדכן|לשנות|לתקן/gi,'please update')
+      .replace(/במקום/gi,'instead of')
+      .replace(/כלוב|כלובים/gi,'cage(s)')
+      .replace(/בטן המטוס/gi,'in the aircraft hold')
+      .replace(/משקל/gi,'weight')
+      .replace(/תודה רבה/gi,'')
+      .replace(/מיה|מאיה/gi,'')
       .trim();
 
     email={lang:'en',
       to: isAVIH?'petdesk@airline.com':isWCHR?'specialservices@airline.com':'reservations@airline.com',
       subject,
-      body:`Dear ${airlines} Team,\n\nI am writing regarding PNR ${pnr}, passenger(s) ${pax}.\n\n${bodyContent}\n\nPlease confirm once updated.\n\nThank you for your assistance.\n\nBest regards,\nMaya Kespi\nKaspee Group Travel | IATA: 37202465`};
+      body:`Hi,\n\nPlease help to update the ${isAVIH?'AVIH':isWCHR?'WCHR':isSSR?'SSR':'booking'} details for PNR ${pnr}${t.airlines&&t.airlines.length?', flight '+t.airlines.join('/')+'.':'.'}  \n\n${bodyContent}\n\nPlease confirm once updated.\n\nThank you for your assistance and understanding.\n\nBest regards,\nMaya\nIATA: 37202465`};
   } else {
     email={lang:'he',to:'client@email.com',
       subject:t.title,
