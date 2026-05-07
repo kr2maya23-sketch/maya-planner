@@ -680,12 +680,36 @@ function openAdd(key,time){
       <input class="form-input" id="aChild" placeholder="שם הילד / כולם"></div>`:''}
     <div class="form-group">
       <label class="form-label">🔁 חזרה קבועה</label>
-      <select class="form-select" id="aRecurring">
+      <select class="form-select" id="aRecurring" onchange="tglRecurring()">
         <option value="none">ללא חזרה</option>
+        <option value="daily">כל יום</option>
+        <option value="weekdays">כל יום חול (א׳–ה׳)</option>
         <option value="weekly">כל שבוע (אותו יום)</option>
+        <option value="specificdays">ימים ספציפיים בשבוע</option>
         <option value="biweekly">כל שבועיים</option>
         <option value="monthly">כל חודש</option>
+        <option value="custom">כל X ימים (מותאם אישית)</option>
       </select>
+      <div id="recurringDays" style="display:none;margin-top:8px;display:none">
+        <div style="font-size:0.78rem;color:var(--text2);font-weight:700;margin-bottom:6px">בחרי ימים:</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'].map((d,i)=>`
+          <label style="display:flex;align-items:center;gap:4px;background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:0.8rem;font-weight:700">
+            <input type="checkbox" value="${i}" id="rday${i}" style="accent-color:var(--work)"> ${d}
+          </label>`).join('')}
+        </div>
+      </div>
+      <div id="recurringCustom" style="display:none;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:0.82rem;color:var(--text2);font-weight:600">כל</span>
+          <input class="form-input" id="aCustomDays" type="number" min="1" max="365" value="3" style="width:70px;text-align:center">
+          <span style="font-size:0.82rem;color:var(--text2);font-weight:600">ימים</span>
+        </div>
+      </div>
+      <div id="recurringEnd" style="display:none;margin-top:8px">
+        <label class="form-label">עד תאריך (אופציונלי)</label>
+        <input class="form-input" id="aRecurringEnd" type="date">
+      </div>
     </div>
     <div class="form-group"><label class="form-label">✉️ שפת מייל (אם יידרש)</label>
       <select class="form-select" id="aLang">
@@ -729,6 +753,15 @@ function openAdd(key,time){
   setTimeout(()=>document.getElementById('aTitle')?.focus(),80);
 }
 
+function tglRecurring(){
+  const v=document.getElementById('aRecurring')?.value;
+  const days=document.getElementById('recurringDays');
+  const custom=document.getElementById('recurringCustom');
+  const end=document.getElementById('recurringEnd');
+  if(days) days.style.display=v==='specificdays'?'block':'none';
+  if(custom) custom.style.display=v==='custom'?'block':'none';
+  if(end) end.style.display=v==='none'?'none':'block';
+}
 function tglAF(){
   const v=document.getElementById('aCat')?.value;
   const af=document.getElementById('airF');    if(af) af.style.display=v==='airline'?'block':'none';
@@ -740,7 +773,11 @@ function saveTask(key){
   const title=document.getElementById('aTitle').value.trim(); if(!title){alert('אנא הכניסי כותרת');return;}
   const cat=document.getElementById('aCat').value;
   const recurring=document.getElementById('aRecurring')?.value||'none';
-  const t={id:uid(),title,cat,time:document.getElementById('aTime').value,note:document.getElementById('aNote').value,done:false,recurring};
+  const recurringEnd=document.getElementById('aRecurringEnd')?.value||'';
+  const customDays=parseInt(document.getElementById('aCustomDays')?.value||'3');
+  const specificDays=[0,1,2,3,4,5,6].filter(i=>document.getElementById('rday'+i)?.checked);
+
+  const t={id:uid(),title,cat,time:document.getElementById('aTime').value,note:document.getElementById('aNote').value,done:false,recurring,recurringEnd,customDays,specificDays};
   const ch=document.getElementById('aChild'); if(ch&&ch.value.trim()) t.child=ch.value.trim();
   const lg=document.getElementById('aLang'); if(lg) t.emailLang=lg.value;
   if(cat==='airline'){t.passenger=document.getElementById('aPax')?.value.trim()||'';t.pnr=document.getElementById('aPnr')?.value.trim().toUpperCase()||'';t.airlines=(document.getElementById('aAirlines')?.value||'').split(',').map(s=>s.trim()).filter(Boolean);}
@@ -762,26 +799,47 @@ function saveTask(key){
     t.emailLang='he';
   }
 
-  // Save to this day
+  // Save to this day first
   const ts=getTasks(key); ts.push(t); setTasks(key,ts);
 
-  // Propagate recurring for next 12 weeks
+  // Propagate recurring for up to 1 year
   if(recurring!=='none'){
     const baseDate=new Date(key);
-    const step=recurring==='weekly'?7:recurring==='biweekly'?14:30;
-    const count=recurring==='monthly'?12:12;
-    for(let i=1;i<=count;i++){
-      const futureDate=new Date(baseDate);
-      if(recurring==='monthly') futureDate.setMonth(futureDate.getMonth()+i);
-      else futureDate.setDate(futureDate.getDate()+step*i);
+    const endDate=recurringEnd?new Date(recurringEnd):new Date(baseDate.getTime()+365*86400000);
+
+    const getDates=()=>{
+      const dates=[];
+      let d=new Date(baseDate);
+      d.setDate(d.getDate()+1); // start from day after
+      while(d<=endDate){
+        let add=false;
+        if(recurring==='daily') add=true;
+        else if(recurring==='weekdays') add=d.getDay()>=1&&d.getDay()<=5;
+        else if(recurring==='weekly') add=d.getDay()===baseDate.getDay();
+        else if(recurring==='biweekly'){
+          const diff=Math.round((d-baseDate)/(86400000));
+          add=diff%14===0;
+        }
+        else if(recurring==='monthly') add=d.getDate()===baseDate.getDate();
+        else if(recurring==='specificdays') add=specificDays.includes(d.getDay());
+        else if(recurring==='custom'){
+          const diff=Math.round((d-baseDate)/(86400000));
+          add=diff%customDays===0;
+        }
+        if(add) dates.push(new Date(d));
+        d.setDate(d.getDate()+1);
+      }
+      return dates;
+    };
+
+    getDates().forEach(futureDate=>{
       const fKey=formatKey(futureDate);
       const fTasks=getTasks(fKey);
-      // Don't add if already exists with same title
       if(!fTasks.find(x=>x.title===t.title&&x.time===t.time)){
         fTasks.push({...t,id:uid(),done:false,recurringParent:t.id});
         setTasks(fKey,fTasks);
       }
-    }
+    });
   }
   closeModal(); render();
 }
