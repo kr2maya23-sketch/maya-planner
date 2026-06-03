@@ -3,1421 +3,653 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>מאיה – היומן שלי</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<title>הפלאנר של מאיה ✈️</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#f0f4ff; --surface:#fff; --surface2:#f7f8ff; --border:#e0e4f5;
-  --text:#1a1a2e; --text2:#4a4a6a; --text3:#9090b0;
-  --work:#5c6ef8; --work-bg:#eef0ff; --work-glow:rgba(92,110,248,0.22);
-  --personal:#ff4da6; --personal-bg:#fff0f7; --personal-glow:rgba(255,77,166,0.2);
-  --urgent:#ff3d3d; --urgent-bg:#fff0f0;
-  --airline:#00c2e0; --airline-bg:#e8fbff; --airline-glow:rgba(0,194,224,0.2);
-  --done:#00c896; --done-bg:#e8fff8;
-  --accent:#ffbe00;
-  --p-kids:#ff9f43; --p-kids-bg:#fff5e6;
-  --p-health:#ee5a24; --p-health-bg:#fff0eb;
-  --p-social:#a29bfe; --p-social-bg:#f0eeff;
-  --p-event:#fd79a8; --p-event-bg:#fff0f6;
-  --p-school:#00b894; --p-school-bg:#e8fff8;
-  --p-me:#fdcb6e; --p-me-bg:#fffbea;
-  --p-other:#636e72; --p-other-bg:#f5f5f5;
-  --hotel:#e17055; --hotel-bg:#fff5f2; --hotel-glow:rgba(225,112,85,0.2);
-  --radius:16px; --radius-sm:12px;
-  --shadow:0 4px 20px rgba(92,110,248,0.1);
-  --shadow-lg:0 8px 40px rgba(92,110,248,0.18);
+  --bg: #f0ede8;
+  --surface: #ffffff;
+  --border: #e2ddd6;
+  --text: #1a1714;
+  --muted: #8a8480;
+  --work: #3b5bdb;
+  --work-bg: #edf2ff;
+  --work-light: #bac8ff;
+  --personal: #0ca678;
+  --personal-bg: #e6fcf5;
+  --personal-light: #96f2d7;
+  --urgent: #e03131;
+  --urgent-bg: #fff5f5;
+  --urgent-light: #ffa8a8;
+  --accent: #f59f00;
+  --accent-bg: #fff9db;
+  --r: 14px;
+  --r-sm: 9px;
+  --shadow: 0 2px 16px rgba(0,0,0,.07);
 }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Heebo', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; direction: rtl; }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;direction:rtl;}
-
-/* ── HEADER ── */
-header{
-  background:var(--surface);
-  padding:0 24px;
-  display:flex; align-items:center; justify-content:space-between;
-  height:64px; position:sticky; top:0; z-index:100;
-  box-shadow:0 2px 20px rgba(92,110,248,0.1);
-  gap:12px;
+/* HEADER */
+header {
+  background: linear-gradient(135deg, #1a1714 0%, #2d2520 100%);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; height: 60px;
 }
-
-.logo{font-family:'Fredoka One',cursive;font-size:1.45rem;background:linear-gradient(135deg,var(--work),var(--personal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;}
-
-/* ── TABS BAR ── */
-.tabs-bar{
-  display:flex; align-items:center; gap:4px;
-  background:var(--surface2); padding:5px;
-  border-radius:16px; border:2px solid var(--border);
-  flex:1; max-width:780px;
+.logo { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
+.logo em { color: var(--accent); font-style: normal; }
+.sync-pill {
+  font-size: 12px; font-weight: 600;
+  padding: 5px 14px; border-radius: 20px;
+  background: rgba(255,255,255,.12); color: #fff;
+  display: flex; align-items: center; gap: 6px;
+  transition: all .2s;
 }
+.sync-pill.ok { background: rgba(12,166,120,.25); color: #96f2d7; }
+.sync-pill.saving { background: rgba(245,159,0,.2); color: #ffd43b; }
+.sync-pill.error { background: rgba(224,49,49,.25); color: #ffa8a8; }
 
-.tab-section{display:flex; align-items:center; gap:3px;}
-
-.tab-divider{
-  width:2px; height:30px;
-  background:var(--border); border-radius:1px;
-  margin:0 4px; flex-shrink:0;
+/* TABS */
+.container { max-width: 860px; margin: 0 auto; padding: 20px 16px; }
+.tabs {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 0;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+  margin-bottom: 20px; box-shadow: var(--shadow);
 }
-
-.section-label{
-  font-size:0.75rem; font-weight:800;
-  padding:4px 8px; border-radius:8px;
-  white-space:nowrap; flex-shrink:0;
+.tab {
+  padding: 13px 10px; border: none; background: transparent;
+  cursor: pointer; font-family: 'Heebo',sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--muted); transition: all .18s;
+  border-left: 1px solid var(--border); display: flex; align-items: center; justify-content: center; gap: 6px;
 }
-.section-label.work-label{color:var(--work);background:var(--work-bg);}
-.section-label.personal-label{color:var(--personal);background:var(--personal-bg);}
+.tab:last-child { border-left: none; }
+.tab.active { background: var(--text); color: #fff; }
+.tab:hover:not(.active) { background: var(--bg); color: var(--text); }
+.section { display: none; }
+.section.active { display: block; }
 
-.tab-btn{
-  padding:6px 13px; border-radius:10px; border:none;
-  background:transparent; color:var(--text2);
-  font-family:'Heebo',sans-serif; font-size:0.82rem; font-weight:700;
-  cursor:pointer; transition:all 0.22s cubic-bezier(.34,1.56,.64,1);
-  white-space:nowrap;
+/* STATS BAR */
+.stats-bar {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 18px;
 }
-.tab-btn:hover{background:rgba(92,110,248,0.08);color:var(--work);}
-.tab-btn.active-work{background:linear-gradient(135deg,var(--work),#7c6ef8);color:#fff;box-shadow:0 3px 12px var(--work-glow);transform:scale(1.04);}
-.tab-btn.active-personal{background:linear-gradient(135deg,var(--personal),#fd79a8);color:#fff;box-shadow:0 3px 12px var(--personal-glow);transform:scale(1.04);}
-
-.header-date{font-size:0.8rem;color:var(--text2);font-weight:700;background:var(--work-bg);padding:6px 12px;border-radius:20px;border:1.5px solid rgba(92,110,248,0.2);flex-shrink:0;white-space:nowrap;}
-
-/* ── LAYOUT ── */
-.app-layout{display:grid;grid-template-columns:1fr 282px;height:calc(100vh - 64px);}
-.main-content{overflow-y:auto;padding:24px;}
-
-/* ── SIDEBAR ── */
-.sidebar{background:var(--surface);border-right:3px solid var(--border);padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:18px;}
-.sidebar-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--text);display:flex;align-items:center;gap:8px;}
-.week-todo-input{display:flex;gap:8px;}
-.week-todo-input input{flex:1;background:var(--surface2);border:2px solid var(--border);border-radius:var(--radius-sm);padding:9px 13px;color:var(--text);font-family:'Heebo',sans-serif;font-size:0.85rem;direction:rtl;transition:border-color 0.2s;}
-.week-todo-input input:focus{outline:none;border-color:var(--work);}
-.btn-add-small{border:none;border-radius:var(--radius-sm);color:#fff;font-size:1.2rem;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
-.btn-add-small:hover{transform:scale(1.1);}
-.todo-list{display:flex;flex-direction:column;gap:7px;}
-.todo-item{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;background:var(--surface2);border-radius:var(--radius-sm);border:2px solid var(--border);animation:popIn 0.3s cubic-bezier(.34,1.56,.64,1);}
-.todo-item.done-todo .todo-text{text-decoration:line-through;color:var(--text3);}
-.todo-check{width:20px;height:20px;border-radius:6px;border:2.5px solid var(--border);cursor:pointer;flex-shrink:0;margin-top:1px;transition:all 0.2s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;}
-.todo-check.checked{background:linear-gradient(135deg,var(--done),#00a07a);border-color:var(--done);color:#fff;transform:scale(1.15);}
-.todo-text{font-size:0.85rem;color:var(--text);flex:1;line-height:1.4;}
-.todo-delete{background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.9rem;transition:color 0.2s;}
-.todo-delete:hover{color:var(--urgent);}
-.mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.mini-stat{background:var(--surface2);border-radius:var(--radius-sm);padding:12px 10px;text-align:center;border:2px solid var(--border);transition:all 0.2s;}
-.mini-stat:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
-.mini-stat-num{font-size:1.5rem;font-weight:900;}
-.mini-stat-label{font-size:0.68rem;color:var(--text3);margin-top:3px;font-weight:600;}
-.cat-legend{display:flex;flex-direction:column;gap:7px;}
-.cat-badge{display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text2);font-weight:600;}
-.cat-dot{width:12px;height:12px;border-radius:4px;flex-shrink:0;}
-
-/* ── DAY VIEW HEADER ── */
-.day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
-.day-title{font-family:'Fredoka One',cursive;font-size:1.7rem;}
-.day-nav{display:flex;gap:8px;}
-.nav-btn{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius-sm);color:var(--text2);padding:7px 14px;cursor:pointer;font-family:'Heebo',sans-serif;font-size:0.85rem;font-weight:700;transition:all 0.2s;box-shadow:var(--shadow);}
-.nav-btn:hover{transform:translateY(-1px);}
-.nav-btn.today-btn{border-color:transparent;color:#fff;box-shadow:0 4px 15px var(--work-glow);}
-
-/* ── PROGRESS ── */
-.day-progress-wrap{margin-bottom:20px;}
-.day-progress-label{display:flex;justify-content:space-between;margin-bottom:6px;font-size:0.8rem;font-weight:700;color:var(--text2);}
-.day-progress-bar{height:10px;background:var(--border);border-radius:20px;overflow:hidden;}
-.day-progress-fill{height:100%;background:linear-gradient(90deg,var(--done),#00e0a8);border-radius:20px;transition:width 0.6s cubic-bezier(.34,1.56,.64,1);}
-
-/* ── BIG TASK CARDS ── */
-.tasks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;}
-
-.big-task-card{background:var(--surface);border-radius:18px;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.06);overflow:hidden;transition:all 0.25s cubic-bezier(.34,1.56,.64,1);position:relative;}
-.big-task-card:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 12px 35px rgba(0,0,0,0.12);}
-
-.card-stripe{height:7px;width:100%;}
-
-/* Work stripes */
-.cat-work    .card-stripe{background:linear-gradient(90deg,#5c6ef8,#9088ff);}
-.cat-urgent  .card-stripe{background:linear-gradient(90deg,#ff3d3d,#ff7070);}
-.cat-airline .card-stripe{background:linear-gradient(90deg,#00c2e0,#60e0f8);}
-.cat-hotel   .card-stripe{background:linear-gradient(90deg,#e17055,#fab1a0);}
-.cat-booking .card-stripe{background:linear-gradient(90deg,#6c5ce7,#a29bfe);}
-.cat-personal.card-stripe,.cat-personal .card-stripe{background:linear-gradient(90deg,#ff4da6,#ff80c0);}
-.cat-done    .card-stripe{background:linear-gradient(90deg,#00c896,#60e8c0);}
-/* Personal stripes */
-.cat-kids    .card-stripe{background:linear-gradient(90deg,#ff9f43,#ffbe76);}
-.cat-health  .card-stripe{background:linear-gradient(90deg,#ee5a24,#ff7675);}
-.cat-social  .card-stripe{background:linear-gradient(90deg,#a29bfe,#c7b7fe);}
-.cat-event   .card-stripe{background:linear-gradient(90deg,#fd79a8,#ffb3d1);}
-.cat-school  .card-stripe{background:linear-gradient(90deg,#00b894,#55efc4);}
-.cat-me      .card-stripe{background:linear-gradient(90deg,#fdcb6e,#ffeaa7);}
-.cat-other   .card-stripe{background:linear-gradient(90deg,#636e72,#b2bec3);}
-
-/* Border */
-.cat-work    {border-color:rgba(92,110,248,0.25)!important;}
-.cat-urgent  {border-color:rgba(255,61,61,0.3)!important;}
-.cat-airline {border-color:rgba(0,194,224,0.25)!important;}
-.cat-hotel   {border-color:rgba(225,112,85,0.3)!important;}
-.cat-booking {border-color:rgba(108,92,231,0.3)!important;}
-.cat-done    {border-color:rgba(0,200,150,0.2)!important;opacity:0.72;}
-.cat-kids    {border-color:rgba(255,159,67,0.3)!important;}
-.cat-health  {border-color:rgba(238,90,36,0.3)!important;}
-.cat-social  {border-color:rgba(162,155,254,0.35)!important;}
-.cat-event   {border-color:rgba(253,121,168,0.3)!important;}
-.cat-school  {border-color:rgba(0,184,148,0.3)!important;}
-.cat-me      {border-color:rgba(253,203,110,0.4)!important;}
-.cat-other   {border-color:rgba(99,110,114,0.25)!important;}
-
-.card-body{padding:14px 16px;}
-.card-top{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
-
-.card-time-tag{font-size:0.72rem;font-weight:800;direction:ltr;padding:3px 10px;border-radius:20px;white-space:nowrap;}
-.card-cat-badge{font-size:0.68rem;font-weight:800;padding:3px 10px;border-radius:20px;color:#fff;white-space:nowrap;}
-
-/* time-tag colors */
-.cat-work    .card-time-tag{background:var(--work-bg);color:var(--work);}
-.cat-urgent  .card-time-tag{background:var(--urgent-bg);color:var(--urgent);}
-.cat-airline .card-time-tag{background:var(--airline-bg);color:var(--airline);}
-.cat-hotel   .card-time-tag{background:var(--hotel-bg);color:var(--hotel);}
-.cat-booking .card-time-tag{background:#f0eeff;color:#6c5ce7;}
-.cat-done    .card-time-tag{background:var(--done-bg);color:var(--done);}
-.cat-kids    .card-time-tag{background:var(--p-kids-bg);color:var(--p-kids);}
-.cat-health  .card-time-tag{background:var(--p-health-bg);color:var(--p-health);}
-.cat-social  .card-time-tag{background:var(--p-social-bg);color:var(--p-social);}
-.cat-event   .card-time-tag{background:var(--p-event-bg);color:var(--p-event);}
-.cat-school  .card-time-tag{background:var(--p-school-bg);color:var(--p-school);}
-.cat-me      .card-time-tag{background:var(--p-me-bg);color:#b8860b;}
-.cat-other   .card-time-tag{background:var(--p-other-bg);color:var(--p-other);}
-
-/* badge bg */
-.cat-work    .card-cat-badge{background:var(--work);}
-.cat-urgent  .card-cat-badge{background:var(--urgent);}
-.cat-airline .card-cat-badge{background:var(--airline);}
-.cat-hotel   .card-cat-badge{background:var(--hotel);}
-.cat-booking .card-cat-badge{background:#6c5ce7;}
-.cat-done    .card-cat-badge{background:var(--done);}
-.cat-kids    .card-cat-badge{background:var(--p-kids);}
-.cat-health  .card-cat-badge{background:var(--p-health);}
-.cat-social  .card-cat-badge{background:var(--p-social);}
-.cat-event   .card-cat-badge{background:var(--p-event);}
-.cat-school  .card-cat-badge{background:var(--p-school);}
-.cat-me      .card-cat-badge{background:var(--p-me);color:#1a1a2e;}
-.cat-other   .card-cat-badge{background:var(--p-other);}
-
-.hotel-details{background:var(--hotel-bg);border:2px solid rgba(225,112,85,0.25);border-radius:10px;padding:10px 13px;margin-bottom:8px;font-size:0.79rem;line-height:1.7;color:var(--text2);}
-.hotel-details strong{color:var(--hotel);font-weight:800;}
-
-.card-title{font-size:0.97rem;font-weight:800;color:var(--text);line-height:1.35;margin-bottom:6px;}
-.cat-done .card-title{text-decoration:line-through;color:var(--text3);}
-.card-note{font-size:0.78rem;color:var(--text2);line-height:1.5;margin-bottom:6px;}
-.card-child{font-size:0.73rem;color:var(--p-kids);font-weight:700;background:var(--p-kids-bg);padding:2px 9px;border-radius:20px;display:inline-block;margin-bottom:6px;}
-.pnr-chip{display:inline-flex;align-items:center;gap:4px;background:var(--airline-bg);border:2px solid rgba(0,194,224,0.4);border-radius:8px;padding:3px 10px;font-size:0.7rem;font-family:monospace;color:var(--airline);letter-spacing:1.5px;font-weight:800;margin-bottom:6px;}
-
-.card-actions{display:flex;gap:6px;flex-wrap:wrap;padding-top:10px;border-top:1.5px dashed var(--border);margin-top:4px;}
-.act-btn{display:inline-flex;align-items:center;gap:4px;padding:5px 11px;border-radius:8px;border:2px solid var(--border);background:var(--surface2);color:var(--text2);font-family:'Heebo',sans-serif;font-size:0.73rem;font-weight:700;cursor:pointer;transition:all 0.18s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;}
-.act-btn:hover{transform:scale(1.06);}
-.act-btn.email  {border-color:var(--airline);color:var(--airline);background:var(--airline-bg);}
-.act-btn.email:hover{background:var(--airline);color:#fff;}
-.act-btn.done-btn{border-color:var(--done);color:var(--done);background:var(--done-bg);}
-.act-btn.done-btn:hover{background:var(--done);color:#fff;}
-.act-btn.edit-btn{border-color:var(--work);color:var(--work);background:var(--work-bg);}
-.act-btn.edit-btn:hover{background:var(--work);color:#fff;}
-.act-btn.del-btn{border-color:var(--urgent);color:var(--urgent);background:var(--urgent-bg);}
-.act-btn.del-btn:hover{background:var(--urgent);color:#fff;}
-.done-badge{position:absolute;top:16px;left:14px;font-size:1.4rem;}
-
-.add-card-btn{background:var(--surface);border:2.5px dashed var(--border);border-radius:18px;padding:20px;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:all 0.2s;font-family:'Heebo',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text3);min-height:100px;}
-
-.empty-day{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3);}
-
-/* ── WEEK VIEW ── */
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
-.week-day-col{background:var(--surface);border-radius:var(--radius);border:2px solid var(--border);overflow:hidden;min-height:360px;box-shadow:var(--shadow);transition:all 0.2s;}
-.week-day-col:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
-.week-day-header{padding:12px;text-align:center;border-bottom:3px solid var(--border);background:var(--surface2);cursor:pointer;}
-.week-day-name{font-size:0.72rem;color:var(--text2);font-weight:700;}
-.week-day-num{font-size:1.4rem;font-weight:900;margin-top:3px;color:var(--text);}
-.week-day-tasks{padding:8px;display:flex;flex-direction:column;gap:5px;}
-.week-task-chip{font-size:0.75rem;padding:6px 9px;border-radius:8px;color:var(--text);cursor:pointer;transition:all 0.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;}
-.week-task-chip:hover{transform:translateX(-2px);}
-.week-task-chip.work    {background:var(--work-bg);border-right:3px solid var(--work);}
-.week-task-chip.urgent  {background:var(--urgent-bg);border-right:3px solid var(--urgent);}
-.week-task-chip.airline {background:var(--airline-bg);border-right:3px solid var(--airline);}
-.week-task-chip.hotel   {background:var(--hotel-bg);border-right:3px solid var(--hotel);}
-.week-task-chip.personal{background:var(--personal-bg);border-right:3px solid var(--personal);}
-.week-task-chip.done    {background:var(--done-bg);border-right:3px solid var(--done);opacity:0.6;text-decoration:line-through;}
-.week-task-chip.kids    {background:var(--p-kids-bg);border-right:3px solid var(--p-kids);}
-.week-task-chip.health  {background:var(--p-health-bg);border-right:3px solid var(--p-health);}
-.week-task-chip.social  {background:var(--p-social-bg);border-right:3px solid var(--p-social);}
-.week-task-chip.event   {background:var(--p-event-bg);border-right:3px solid var(--p-event);}
-.week-task-chip.school  {background:var(--p-school-bg);border-right:3px solid var(--p-school);}
-.week-task-chip.me      {background:var(--p-me-bg);border-right:3px solid var(--p-me);}
-.week-task-chip.other   {background:var(--p-other-bg);border-right:3px solid var(--p-other);}
-.week-add-btn{font-size:0.75rem;color:var(--text3);background:none;border:2px dashed var(--border);border-radius:8px;padding:5px 8px;cursor:pointer;font-family:'Heebo',sans-serif;font-weight:600;width:100%;transition:all 0.2s;margin-top:5px;}
-
-/* ── MONTH VIEW ── */
-.month-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
-.month-title{font-family:'Fredoka One',cursive;font-size:1.6rem;}
-.month-grid-header{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:5px;}
-.month-dow{text-align:center;font-size:0.75rem;color:var(--text3);font-weight:700;padding:5px;}
-.month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
-.month-cell{background:var(--surface);border:2px solid var(--border);border-radius:var(--radius-sm);min-height:90px;padding:7px;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-.month-cell:hover{transform:translateY(-1px);box-shadow:var(--shadow);}
-.month-cell.today{box-shadow:0 4px 15px rgba(92,110,248,0.2);}
-.month-cell.other-month{opacity:0.38;}
-.month-cell-num{font-size:0.85rem;font-weight:800;color:var(--text2);margin-bottom:5px;}
-.month-dot-list{display:flex;flex-direction:column;gap:3px;}
-.month-dot{font-size:0.68rem;padding:2px 6px;border-radius:5px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;}
-.month-dot.work    {background:var(--work-bg);border-right:2px solid var(--work);}
-.month-dot.urgent  {background:var(--urgent-bg);border-right:2px solid var(--urgent);}
-.month-dot.airline {background:var(--airline-bg);border-right:2px solid var(--airline);}
-.month-dot.hotel   {background:var(--hotel-bg);border-right:2px solid var(--hotel);}
-.month-dot.personal{background:var(--personal-bg);border-right:2px solid var(--personal);}
-.month-dot.done    {background:var(--done-bg);border-right:2px solid var(--done);opacity:0.6;}
-.month-dot.kids    {background:var(--p-kids-bg);border-right:2px solid var(--p-kids);}
-.month-dot.health  {background:var(--p-health-bg);border-right:2px solid var(--p-health);}
-.month-dot.social  {background:var(--p-social-bg);border-right:2px solid var(--p-social);}
-.month-dot.event   {background:var(--p-event-bg);border-right:2px solid var(--p-event);}
-.month-dot.school  {background:var(--p-school-bg);border-right:2px solid var(--p-school);}
-.month-dot.me      {background:var(--p-me-bg);border-right:2px solid var(--p-me);}
-.month-dot.other   {background:var(--p-other-bg);border-right:2px solid var(--p-other);}
-.month-more{font-size:0.65rem;color:var(--text3);margin-top:2px;font-weight:600;}
-
-/* ── MODAL ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.55);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;animation:fadeIn 0.2s ease;padding:16px;}
-.modal{background:var(--surface);border:2px solid var(--border);border-radius:20px;padding:28px;width:100%;max-width:500px;animation:popIn 0.3s cubic-bezier(.34,1.56,.64,1);direction:rtl;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(92,110,248,0.2);}
-.modal-title{font-family:'Fredoka One',cursive;font-size:1.15rem;margin-bottom:20px;}
-.form-group{margin-bottom:14px;}
-.form-label{font-size:0.82rem;color:var(--text2);font-weight:700;margin-bottom:6px;display:block;}
-.form-input,.form-select,.form-textarea{width:100%;background:var(--surface2);border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;color:var(--text);font-family:'Heebo',sans-serif;font-size:0.88rem;direction:rtl;transition:border-color 0.2s;}
-.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--work);}
-.form-select option{background:var(--surface2);}
-.form-textarea{resize:vertical;min-height:70px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.modal-actions{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;flex-wrap:wrap;}
-.btn{padding:10px 20px;border-radius:var(--radius-sm);border:none;font-family:'Heebo',sans-serif;font-size:0.88rem;font-weight:700;cursor:pointer;transition:all 0.2s cubic-bezier(.34,1.56,.64,1);}
-.btn:hover{transform:scale(1.04);}
-.btn-primary{color:#fff;}
-.btn-secondary{background:var(--surface2);color:var(--text2);border:2px solid var(--border);}
-.btn-danger{background:linear-gradient(135deg,var(--urgent),#ff6060);color:#fff;}
-
-/* EMAIL */
-.email-preview{background:var(--airline-bg);border:2px solid var(--airline);border-radius:var(--radius-sm);padding:16px;margin-top:12px;direction:ltr;}
-.email-field{margin-bottom:11px;}
-.email-field-label{font-size:0.7rem;color:var(--airline);font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px;}
-.email-field-value{font-size:0.85rem;color:var(--text);font-family:'Courier New',monospace;}
-.email-body-editable{width:100%;background:white;border:2px solid var(--border);border-radius:8px;padding:12px;font-size:0.82rem;color:var(--text);line-height:1.7;font-family:'Courier New',monospace;direction:ltr;text-align:left;min-height:200px;resize:vertical;}
-.email-body-editable:focus{outline:none;border-color:var(--airline);}
-.copy-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 15px;border-radius:8px;border:2px solid var(--airline);background:transparent;color:var(--airline);font-family:'Heebo',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
-.copy-btn:hover{background:var(--airline);color:#fff;}
-.copy-btn.copied{border-color:var(--done);color:var(--done);}
-.airline-section{background:var(--airline-bg);border:2px solid rgba(0,194,224,0.3);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;}
-.airline-section .form-group:last-child{margin-bottom:0;}
-
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes popIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-::-webkit-scrollbar{width:6px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-
-@media(max-width:900px){
-  .tabs-bar{max-width:100%;overflow-x:auto;}
-  .tab-btn{padding:5px 9px;font-size:0.75rem;}
-  .section-label{font-size:0.7rem;padding:3px 6px;}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 2px;
+  box-shadow: var(--shadow);
 }
-@media(max-width:768px){
-  .app-layout{grid-template-columns:1fr;}
-  .sidebar{border-right:none;border-top:3px solid var(--border);order:2;}
-  .week-grid{grid-template-columns:repeat(3,1fr);}
-  .month-cell{min-height:60px;}
-  header{height:auto;padding:10px 14px;flex-wrap:wrap;gap:8px;}
-  .header-date{display:none;}
-  .tasks-grid{grid-template-columns:1fr;}
+.stat-num { font-size: 24px; font-weight: 900; line-height: 1; }
+.stat-label { font-size: 11px; color: var(--muted); font-weight: 500; }
+.stat-card.s-work .stat-num { color: var(--work); }
+.stat-card.s-personal .stat-num { color: var(--personal); }
+.stat-card.s-urgent .stat-num { color: var(--urgent); }
+.stat-card.s-done .stat-num { color: var(--muted); }
+
+/* FILTERS */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+.filt {
+  padding: 6px 16px; border: 1.5px solid var(--border);
+  border-radius: 20px; background: var(--surface);
+  cursor: pointer; font-family: 'Heebo',sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--muted); transition: all .15s;
 }
-@media(max-width:480px){
-  .week-grid{grid-template-columns:repeat(2,1fr);}
-  .main-content{padding:14px;}
-  .form-row{grid-template-columns:1fr;}
+.filt.active { background: var(--text); color: #fff; border-color: var(--text); }
+.filt.f-work.active { background: var(--work); border-color: var(--work); }
+.filt.f-personal.active { background: var(--personal); border-color: var(--personal); }
+.filt.f-urgent.active { background: var(--urgent); border-color: var(--urgent); }
+.filt.f-today.active { background: var(--accent); border-color: var(--accent); color: #1a1714; }
+
+/* TASK ITEMS */
+.task-item {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 14px 16px;
+  margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px;
+  transition: all .18s; box-shadow: var(--shadow);
+  border-right: 4px solid var(--border);
+}
+.task-item.cat-work { border-right-color: var(--work); }
+.task-item.cat-personal { border-right-color: var(--personal); }
+.task-item.cat-urgent { border-right-color: var(--urgent); }
+.task-item:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(0,0,0,.1); }
+.task-item.done { opacity: .5; }
+.task-item.done .task-title { text-decoration: line-through; }
+
+.task-check {
+  width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 50%;
+  cursor: pointer; flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center; transition: all .15s;
+}
+.task-check.checked { background: var(--personal); border-color: var(--personal); }
+.task-check.checked::after { content: '✓'; color: #fff; font-size: 12px; font-weight: 700; }
+
+.task-body { flex: 1; min-width: 0; }
+.task-title { font-size: 15px; font-weight: 700; margin-bottom: 5px; word-break: break-word; }
+.task-meta { font-size: 12px; color: var(--muted); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.task-notes { font-size: 13px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+
+.badge { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-work { background: var(--work-bg); color: var(--work); }
+.badge-personal { background: var(--personal-bg); color: var(--personal); }
+.badge-urgent { background: var(--urgent-bg); color: var(--urgent); }
+
+.task-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.act-btn {
+  width: 32px; height: 32px; border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  background: transparent; cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center; transition: all .15s;
+}
+.act-btn:hover { background: var(--bg); }
+.act-btn.del:hover { background: var(--urgent-bg); border-color: var(--urgent-light); }
+.act-btn.edit:hover { background: var(--accent-bg); border-color: var(--accent); }
+
+/* EDIT MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 200; padding: 16px;
+}
+.modal-overlay.hidden { display: none; }
+.modal {
+  background: var(--surface); border-radius: var(--r);
+  padding: 24px; width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.2);
+}
+.modal-title { font-size: 17px; font-weight: 800; margin-bottom: 20px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+/* TOMORROW BTN */
+.tmrw-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 20px;
+  background: var(--accent-bg); border: 1.5px solid var(--accent);
+  color: #7c5200; font-size: 12px; font-weight: 700; cursor: pointer;
+  margin-top: 8px; transition: all .15s; font-family: 'Heebo',sans-serif;
+}
+.tmrw-btn:hover { background: var(--accent); color: #fff; }
+
+/* CALENDAR */
+.cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.cal-nav-btn {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); padding: 8px 16px; cursor: pointer;
+  font-size: 16px; font-family: 'Heebo',sans-serif; font-weight: 700;
+  transition: all .15s; box-shadow: var(--shadow);
+}
+.cal-nav-btn:hover { background: var(--text); color: #fff; border-color: var(--text); }
+.cal-title { font-size: 20px; font-weight: 900; }
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
+.cal-day-hdr { text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); padding: 6px; }
+.cal-cell {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r-sm); padding: 6px; min-height: 78px;
+  cursor: pointer; transition: all .15s; box-shadow: var(--shadow);
+}
+.cal-cell:hover { border-color: var(--accent); transform: scale(1.02); }
+.cal-cell.today { border-color: var(--work); border-width: 2px; background: var(--work-bg); }
+.cal-cell.other { opacity: .3; pointer-events: none; }
+.cal-num { font-size: 12px; font-weight: 800; margin-bottom: 3px; }
+.cal-cell.today .cal-num { color: var(--work); }
+.cal-ev {
+  font-size: 10px; padding: 2px 5px; border-radius: 4px;
+  margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600;
+}
+.cal-ev.work { background: var(--work-bg); color: var(--work); }
+.cal-ev.personal { background: var(--personal-bg); color: var(--personal); }
+.cal-ev.urgent { background: var(--urgent-bg); color: var(--urgent); }
+
+/* FORM */
+.form-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 24px; box-shadow: var(--shadow);
+}
+.form-title { font-size: 18px; font-weight: 900; margin-bottom: 20px; }
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: .5px; }
+.form-input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  font-family: 'Heebo',sans-serif; font-size: 14px; color: var(--text);
+  background: var(--bg); transition: border .15s; direction: rtl;
+}
+.form-input:focus { outline: none; border-color: var(--work); background: #fff; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+textarea.form-input { resize: vertical; min-height: 70px; }
+.btn-save {
+  flex: 1; padding: 13px; background: var(--text); color: #fff;
+  border: none; border-radius: var(--r-sm); cursor: pointer;
+  font-family: 'Heebo',sans-serif; font-size: 15px; font-weight: 800;
+  transition: all .15s; letter-spacing: -.3px;
+}
+.btn-save:hover { background: #333; transform: translateY(-1px); }
+.btn-clear {
+  padding: 13px 20px; background: transparent; color: var(--muted);
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  cursor: pointer; font-family: 'Heebo',sans-serif; font-size: 14px; font-weight: 600;
+  transition: all .15s;
+}
+.btn-clear:hover { background: var(--bg); }
+.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+/* EMPTY */
+.empty { text-align: center; padding: 48px 20px; color: var(--muted); }
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-text { font-size: 15px; font-weight: 500; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  background: var(--text); color: #fff; padding: 12px 28px;
+  border-radius: 30px; font-size: 14px; font-weight: 700;
+  opacity: 0; transition: opacity .3s; z-index: 999; pointer-events: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,.2); white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+
+@media(max-width:580px) {
+  .form-row { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: repeat(2,1fr); }
+  header { padding: 0 14px; }
+  .container { padding: 14px 10px; }
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">📋 מאיה</div>
-
-  <div class="tabs-bar">
-    <!-- WORK -->
-    <span class="section-label work-label">💼 עבודה</span>
-    <div class="tab-section">
-      <button class="tab-btn" id="tab-work-day"   onclick="switchTab('work','day')">🌅 יומי</button>
-      <button class="tab-btn" id="tab-work-week"  onclick="switchTab('work','week')">📆 שבועי</button>
-      <button class="tab-btn" id="tab-work-month" onclick="switchTab('work','month')">🗓️ חודשי</button>
-    </div>
-
-    <div class="tab-divider"></div>
-
-    <!-- PERSONAL -->
-    <span class="section-label personal-label">🌸 אישי</span>
-    <div class="tab-section">
-      <button class="tab-btn" id="tab-personal-day"   onclick="switchTab('personal','day')">🌅 יומי</button>
-      <button class="tab-btn" id="tab-personal-week"  onclick="switchTab('personal','week')">📆 שבועי</button>
-      <button class="tab-btn" id="tab-personal-month" onclick="switchTab('personal','month')">🗓️ חודשי</button>
-    </div>
-  </div>
-
-  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-    <button onclick="openStyleRules()" style="display:flex;align-items:center;gap:5px;background:var(--work-bg);border:2px solid rgba(92,110,248,0.25);border-radius:10px;padding:6px 12px;font-family:'Heebo',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;color:var(--work);white-space:nowrap;transition:all 0.2s" title="חוקי הסגנון שלי">📋 הסגנון שלי</button>
-    <div class="header-date" id="headerDate"></div>
-  </div>
+  <div class="logo">✈️ הפלאנר של <em>מאיה</em></div>
+  <div class="sync-pill" id="sync-pill">☁️ טוען...</div>
 </header>
 
-<div class="app-layout">
-  <div class="main-content" id="mainContent"></div>
-  <div class="sidebar">
-    <div class="sidebar-title" id="sidebarTodoTitle">📝 משימות</div>
-    <div class="week-todo-input">
-      <input type="text" id="weekTodoInput" placeholder="הוסיפי..." onkeydown="if(event.key==='Enter')addTodo()">
-      <button class="btn-add-small" id="addTodoBtn" onclick="addTodo()">+</button>
+<div class="container">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('tasks',this)">✅ משימות</button>
+    <button class="tab" onclick="showTab('calendar',this)">📅 יומן</button>
+    <button class="tab" onclick="showTab('add',this)">➕ הוסף</button>
+  </div>
+
+  <!-- TASKS -->
+  <div id="tasks" class="section active">
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="filter-bar">
+      <button class="filt active" onclick="setFilter('all',this)">הכל</button>
+      <button class="filt f-work" onclick="setFilter('work',this)">💼 עבודה</button>
+      <button class="filt f-personal" onclick="setFilter('personal',this)">🏠 אישי</button>
+      <button class="filt f-urgent" onclick="setFilter('urgent',this)">🔥 דחוף</button>
+      <button class="filt f-today" onclick="setFilter('today',this)">⭐ היום</button>
     </div>
-    <div class="todo-list" id="weekTodoList"></div>
-    <div class="sidebar-title">📊 סטטיסטיקות</div>
-    <div class="mini-stats" id="miniStats"></div>
-    <div class="sidebar-title">🎨 קטגוריות</div>
-    <div class="cat-legend" id="catLegend"></div>
+    <div id="task-list"></div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div id="calendar" class="section">
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)">→</button>
+      <div class="cal-title" id="cal-title"></div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)">←</button>
+    </div>
+    <div class="cal-grid" id="cal-headers"></div>
+    <div class="cal-grid" style="margin-top:5px" id="cal-body"></div>
+  </div>
+
+  <!-- ADD -->
+  <div id="add" class="section">
+    <div class="form-card">
+      <div class="form-title">➕ משימה / אירוע חדש</div>
+      <div class="form-group">
+        <label class="form-label">כותרת *</label>
+        <input class="form-input" id="f-title" type="text" placeholder="שם המשימה...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">תאריך</label>
+          <input class="form-input" id="f-date" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">שעה</label>
+          <input class="form-input" id="f-time" type="time">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">קטגוריה</label>
+          <select class="form-input" id="f-cat">
+            <option value="work">💼 עבודה</option>
+            <option value="personal">🏠 אישי</option>
+            <option value="urgent">🔥 דחוף</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">תזכורת</label>
+          <select class="form-input" id="f-remind">
+            <option value="">ללא</option>
+            <option value="10">10 דקות לפני</option>
+            <option value="30">30 דקות לפני</option>
+            <option value="60">שעה לפני</option>
+            <option value="1440">יום לפני</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">הערות</label>
+        <textarea class="form-input" id="f-notes" placeholder="פרטים נוספים..."></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn-save" onclick="addTask()">💾 שמור בענן</button>
+        <button class="btn-clear" onclick="clearForm()">נקה</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="modalOverlay" style="display:none" onclick="if(event.target===this)closeModal()">
-  <div class="modal" id="modal"></div>
+<!-- EDIT MODAL -->
+<div class="modal-overlay hidden" id="modal-overlay" onclick="closeModalIfBg(event)">
+  <div class="modal">
+    <div class="modal-title">✏️ עריכת משימה</div>
+    <input type="hidden" id="edit-id">
+    <div class="form-group">
+      <label class="form-label">כותרת</label>
+      <input class="form-input" id="edit-title" type="text">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">תאריך</label>
+        <input class="form-input" id="edit-date" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">שעה</label>
+        <input class="form-input" id="edit-time" type="time">
+      </div>
+    </div>
+    <button class="tmrw-btn" onclick="setTomorrow()">📅 להזיז למחר</button>
+    <div class="form-row" style="margin-top:14px">
+      <div class="form-group">
+        <label class="form-label">קטגוריה</label>
+        <select class="form-input" id="edit-cat">
+          <option value="work">💼 עבודה</option>
+          <option value="personal">🏠 אישי</option>
+          <option value="urgent">🔥 דחוף</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">תזכורת</label>
+        <select class="form-input" id="edit-remind">
+          <option value="">ללא</option>
+          <option value="10">10 דקות</option>
+          <option value="30">30 דקות</option>
+          <option value="60">שעה</option>
+          <option value="1440">יום</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">הערות</label>
+      <textarea class="form-input" id="edit-notes"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="saveEdit()">💾 שמור</button>
+      <button class="btn-clear" onclick="closeModal()">ביטול</button>
+    </div>
+  </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ── STORAGE ──
-function ld(k){try{return JSON.parse(localStorage.getItem(k))||{};}catch{return{};}}
-function sd(k,d){localStorage.setItem(k,JSON.stringify(d));}
-function lt(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch{return[];}}
-function st(k,d){localStorage.setItem(k,JSON.stringify(d));}
+const MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+const DAYS_HE = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
+const FILE_NAME = 'maya_planner_data.json';
+const API_URL = 'https://api.anthropic.com/v1/messages';
 
-let workData=ld('m_work_v1'), personalData=ld('m_pers_v1');
-let workTodos=lt('m_wtod_v1'), personalTodos=lt('m_ptod_v1');
+let tasks = [];
+let fileId = localStorage.getItem('planner_file_id') || null;
+let calMonth = new Date();
+let activeFilter = 'all';
 
-// ── SEED ──
-if(!Object.keys(workData).length){
-  const k=todayKey();
-  workData[k]=[
-    {id:uid(),title:'YANOVER/VLADIMIR – WCHR LOT & Air Baltic',cat:'airline',time:'09:00',note:'מייל לאייר בלטיק ולוט – כיסא גלגלים',done:false,pnr:'9CEQ9E',passenger:'YANOVER/VLADIMIR',airlines:['Air Baltic','LOT Polish Airlines']},
-    {id:uid(),title:'הצעת מחיר – קבוצת בנגקוק',cat:'urgent',time:'10:30',note:'',done:false},
-    {id:uid(),title:'בדיקת PNR – DOCS',cat:'work',time:'12:00',note:'',done:true},
-  ];
-  sd('m_work_v1',workData);
-}
-if(!Object.keys(personalData).length){
-  const k=todayKey();
-  personalData[k]=[
-    {id:uid(),title:'חוג כדורגל – יובל',cat:'kids',time:'16:00',note:'',done:false,child:'יובל'},
-    {id:uid(),title:'רופא שיניים',cat:'health',time:'17:30',note:'ד"ר כהן',done:false},
-    {id:uid(),title:'קפה עם שירי',cat:'social',time:'10:00',note:'',done:false},
-  ];
-  sd('m_pers_v1',personalData);
-}
-if(!workTodos.length){workTodos=[{id:uid(),text:'חישובי קבוצה BKK',done:false},{id:uid(),text:'מייל El Al',done:false}];st('m_wtod_v1',workTodos);}
-if(!personalTodos.length){personalTodos=[{id:uid(),text:'רישום לחוג שחייה',done:false},{id:uid(),text:'מתנה יום הולדת',done:false}];st('m_ptod_v1',personalTodos);}
-
-// ── UTILS ──
-function uid(){return Math.random().toString(36).slice(2,10);}
-function todayKey(){return formatKey(new Date());}
-function formatKey(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
-function pad(n){return String(n).padStart(2,'0');}
-function hebrewDay(d){return['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'][d.getDay()];}
-function hebrewMonth(m){return['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'][m];}
-
-// ── CATS ──
-const WORK_CATS={work:{l:'עבודה',e:'💼'},urgent:{l:'דחוף',e:'🚨'},airline:{l:'תעופה',e:'✈️'},hotel:{l:'מלון',e:'🏨'},booking:{l:'הזמנת טיסה',e:'🎫'},personal:{l:'אישי',e:'🌸'}};
-const PERS_CATS={kids:{l:'ילדים/חוגים',e:'🧒'},school:{l:'בית ספר',e:'🏫'},health:{l:'רפואה',e:'🏥'},social:{l:'חברים',e:'👫'},event:{l:'אירוע',e:'🎉'},me:{l:'זמן לעצמי',e:'🧘'},other:{l:'אחר',e:'📌'}};
-
-function getCats(){return mode==='work'?WORK_CATS:PERS_CATS;}
-function catL(c){return({...WORK_CATS,...PERS_CATS})[c]?.l||c;}
-function catE(c){return({...WORK_CATS,...PERS_CATS})[c]?.e||'';}
-
-// ── STATE ──
-let mode='work', view='day';
-let curDate=new Date(), curMonth=new Date();
-
-function getData(){return mode==='work'?workData:personalData;}
-function saveD(){mode==='work'?sd('m_work_v1',workData):sd('m_pers_v1',personalData);}
-function getTodos(){return mode==='work'?workTodos:personalTodos;}
-function saveTodos(){mode==='work'?st('m_wtod_v1',workTodos):st('m_ptod_v1',personalTodos);}
-function getTasks(k){return getData()[k]||[];}
-function setTasks(k,ts){getData()[k]=ts;saveD();}
-
-// ── COLORS ──
-function modeGrad(){return mode==='work'?'linear-gradient(135deg,#5c6ef8,#7c6ef8)':'linear-gradient(135deg,#ff4da6,#fd79a8)';}
-function modeGlow(){return mode==='work'?'rgba(92,110,248,0.22)':'rgba(255,77,166,0.2)';}
-function modeColor(){return mode==='work'?'var(--work)':'var(--personal)';}
-
-// ── TAB SWITCH ──
-function switchTab(m,v){
-  mode=m; view=v;
-  // update all tab styles
-  ['work','personal'].forEach(mo=>['day','week','month'].forEach(vi=>{
-    const btn=document.getElementById(`tab-${mo}-${vi}`);
-    if(!btn)return;
-    const isActive=mo===mode&&vi===view;
-    btn.className='tab-btn'+(isActive?(mo==='work'?' active-work':' active-personal'):'');
-  }));
-  // sidebar
-  document.getElementById('sidebarTodoTitle').textContent=mode==='work'?'📝 משימות השבוע':'🌸 תזכורות אישיות';
-  const addBtn=document.getElementById('addTodoBtn');
-  addBtn.style.background=modeGrad();
-  addBtn.style.boxShadow=`0 4px 12px ${modeGlow()}`;
-  render();
+function showTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  if (id === 'calendar') renderCal();
 }
 
-// ── RENDER ──
-function render(){
-  updateHeaderDate(); renderStats(); renderTodos(); renderCatLegend();
-  const mc=document.getElementById('mainContent');
-  if(view==='day')       mc.innerHTML=renderDay();
-  else if(view==='week') mc.innerHTML=renderWeek();
-  else                   mc.innerHTML=renderMonth();
+function setFilter(f, el) {
+  activeFilter = f;
+  document.querySelectorAll('.filt').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderTasks();
 }
 
-function updateHeaderDate(){
-  const d=curDate;
-  document.getElementById('headerDate').textContent=`יום ${hebrewDay(d)}, ${d.getDate()} ב${hebrewMonth(d.getMonth())} ${d.getFullYear()}`;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-function renderCatLegend(){
-  const el=document.getElementById('catLegend'); if(!el)return;
-  el.innerHTML=Object.entries(getCats()).map(([k,v])=>{
-    const color=`var(--p-${k},var(--${k}))`;
-    return `<div class="cat-badge"><div class="cat-dot" style="background:${color}"></div>${v.e} ${v.l}</div>`;
-  }).join('');
+function setSyncStatus(state) {
+  const b = document.getElementById('sync-pill');
+  const states = {
+    loading: ['☁️ טוען...', ''],
+    saving:  ['⏳ שומר...', 'saving'],
+    ok:      ['✅ מסונכרן', 'ok'],
+    error:   ['❌ שגיאה', 'error']
+  };
+  const [txt, cls] = states[state] || states.ok;
+  b.textContent = txt;
+  b.className = 'sync-pill' + (cls ? ' ' + cls : '');
 }
 
-// ── DAY VIEW ──
-function renderDay(){
-  const key=formatKey(curDate);
-  const tasks=getTasks(key);
-  const isToday=key===todayKey();
-  const sorted=[...tasks].sort((a,b)=>(a.time||'99:99').localeCompare(b.time||'99:99'));
-  const done=tasks.filter(t=>t.done).length;
-  const pct=tasks.length?Math.round(done/tasks.length*100):0;
-  const modeIcon=mode==='work'?'💼':'🌸';
+function catLabel(c) { return c==='work'?'עבודה':c==='personal'?'אישי':'דחוף'; }
+function catIcon(c)  { return c==='work'?'💼':c==='personal'?'🏠':'🔥'; }
 
-  const title=isToday
-    ?`${modeIcon} היום – יום ${hebrewDay(curDate)}, ${curDate.getDate()} ב${hebrewMonth(curDate.getMonth())}`
-    :`${modeIcon} יום ${hebrewDay(curDate)}, ${curDate.getDate()} ב${hebrewMonth(curDate.getMonth())} ${curDate.getFullYear()}`;
+function renderStats() {
+  const today = new Date().toISOString().split('T')[0];
+  const work = tasks.filter(t=>t.cat==='work'&&!t.done).length;
+  const personal = tasks.filter(t=>t.cat==='personal'&&!t.done).length;
+  const urgent = tasks.filter(t=>t.cat==='urgent'&&!t.done).length;
+  const done = tasks.filter(t=>t.done).length;
+  document.getElementById('stats-bar').innerHTML = `
+    <div class="stat-card s-work"><div class="stat-num">${work}</div><div class="stat-label">💼 עבודה</div></div>
+    <div class="stat-card s-personal"><div class="stat-num">${personal}</div><div class="stat-label">🏠 אישי</div></div>
+    <div class="stat-card s-urgent"><div class="stat-num">${urgent}</div><div class="stat-label">🔥 דחוף</div></div>
+    <div class="stat-card s-done"><div class="stat-num">${done}</div><div class="stat-label">✅ הושלמו</div></div>`;
+}
 
-  const todayGrad=modeGrad();
-  let html=`<div class="day-header">
-    <div class="day-title" style="background:${todayGrad};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${title}</div>
-    <div class="day-nav">
-      <button class="nav-btn" style="hover:border-color:${modeColor()}" onclick="chDay(-1)">◀ אתמול</button>
-      <button class="nav-btn today-btn" style="background:${todayGrad}" onclick="goToday()">היום ✨</button>
-      <button class="nav-btn" onclick="chDay(1)">מחר ▶</button>
-    </div>
-  </div>`;
-
-  if(tasks.length){
-    html+=`<div class="day-progress-wrap">
-      <div class="day-progress-label"><span>התקדמות</span><span style="color:var(--done)">${done}/${tasks.length} (${pct}%)</span></div>
-      <div class="day-progress-bar"><div class="day-progress-fill" style="width:${pct}%"></div></div>
-    </div>`;
+function renderTasks() {
+  renderStats();
+  const today = new Date().toISOString().split('T')[0];
+  let filtered = tasks.filter(t => {
+    if (activeFilter === 'all') return !t.done;
+    if (activeFilter === 'today') return t.date === today;
+    return t.cat === activeFilter && !t.done;
+  });
+  filtered.sort((a,b) => (a.date||'zzz').localeCompare(b.date||'zzz'));
+  const list = document.getElementById('task-list');
+  if (!filtered.length) {
+    list.innerHTML = `<div class="empty"><div class="empty-icon">🌟</div><div class="empty-text">אין משימות פתוחות כאן</div></div>`;
+    return;
   }
-
-  html+=`<div class="tasks-grid">`;
-  if(!sorted.length){
-    html+=`<div class="empty-day"><div style="font-size:3rem;margin-bottom:12px">${mode==='work'?'💼':'🌸'}</div><div style="font-family:'Fredoka One',cursive;font-size:1.1rem;margin-bottom:6px">אין ${mode==='work'?'משימות':'אירועים'}!</div></div>`;
-  } else {
-    sorted.forEach(t=>html+=bigCard(t,key));
-  }
-  html+=`<div class="add-card-btn" style="--hover-border:${modeColor()}" onclick="openAdd('${key}','')">
-    <span style="font-size:1.4rem">+</span>
-    <span>הוסיפי ${mode==='work'?'משימה':'אירוע'}</span>
-  </div></div>`;
-  return html;
-}
-
-function bigCard(t,key){
-  const isDone=t.done;
-  const cat=isDone?'done':t.cat;
-  const airBtn=`<button class="act-btn email" onclick="event.stopPropagation();genEmail('${key}','${t.id}')">✉️ מייל</button>`;
-
-  return `<div class="big-task-card cat-${cat}">
-    <div class="card-stripe"></div>
-    ${isDone?'<div class="done-badge">✅</div>':''}
-    <div class="card-body">
-      <div class="card-top">
-        ${t.time?`<span class="card-time-tag">🕐 ${t.time}</span>`:''}
-        <span class="card-cat-badge">${catE(t.cat)} ${catL(t.cat)}</span>
-      </div>
-      <div class="card-title">${t.title}${t.recurring&&t.recurring!=='none'?' <span style="font-size:0.7rem;color:var(--text3);font-weight:600">🔁</span>':''}</div>
-      ${t.child?`<span class="card-child">👶 ${t.child}</span>`:''}
-      ${t.note?`<div class="card-note">${t.note}</div>`:''}
-      ${t.pnr?`<div class="pnr-chip">✈ ${t.pnr}</div>`:''}
-      ${t.airlines&&t.airlines.length?`<div style="font-size:0.72rem;color:var(--text3);margin-bottom:6px;font-weight:600">${t.airlines.join(' · ')}</div>`:''}
-      ${t.cat==='hotel'&&t.hotelName?`<div class="hotel-details">
-        <strong>🏨 ${t.hotelName}</strong><br>
-        ${t.hotelRoom?`🛏️ ${t.hotelRoom}<br>`:''}
-        ${t.hotelPrice?`💶 ${t.hotelPrice} ללילה<br>`:''}
-        ${t.hotelIn?`📅 צ׳ק אין: ${t.hotelIn}  →  צ׳ק אאוט: ${t.hotelOut||''}<br>`:''}
-        ${t.hotelCancel?`⚠️ ביטול חופשי עד: ${t.hotelCancel}`:''}
-      </div>`:''}
-      <div class="card-actions">
-        ${airBtn}
-        <button class="act-btn ${isDone?'':'done-btn'}" onclick="event.stopPropagation();toggleDone('${key}','${t.id}')">${isDone?'↩ בטל':'✓ הושלם'}</button>
-        <button class="act-btn" style="border-color:#fdcb6e;color:#b8860b;background:#fffbea" onclick="event.stopPropagation();followUp('${key}','${t.id}')" title="העבר למחר כ-Follow Up">📅 מחר</button>
-        <button class="act-btn edit-btn" onclick="event.stopPropagation();openEdit('${key}','${t.id}')">✏️</button>
-        <button class="act-btn del-btn" onclick="event.stopPropagation();delTask('${key}','${t.id}')">🗑</button>
-      </div>
-    </div>
-  </div>`;
-}
-
-function toggleDone(key,id){const ts=getTasks(key);const t=ts.find(x=>x.id===id);if(t){t.done=!t.done;setTasks(key,ts);}render();}
-
-function followUp(key,id){
-  const t=getTasks(key).find(x=>x.id===id); if(!t)return;
-  const tomorrow=new Date(key); tomorrow.setDate(tomorrow.getDate()+1);
-  const tKey=formatKey(tomorrow);
-  const ts=getTasks(tKey);
-  const title=t.title.replace(/^🔄 /,'');
-  if(!ts.find(x=>x.title==='🔄 Follow Up: '+title)){
-    ts.push({...t,id:uid(),title:'🔄 Follow Up: '+title,done:false,recurring:'none',time:t.time||''});
-    setTasks(tKey,ts);
-  }
-  // Show confirmation
-  const btn=event.target;
-  const orig=btn.textContent;
-  btn.textContent='✅ נוסף!';
-  btn.style.borderColor='var(--done)';
-  btn.style.color='var(--done)';
-  setTimeout(()=>{btn.textContent=orig;btn.style.borderColor='#fdcb6e';btn.style.color='#b8860b';},1500);
-}
-function delTask(key,id){if(!confirm('למחוק?'))return;setTasks(key,getTasks(key).filter(x=>x.id!==id));render();}
-
-// ── WEEK VIEW ──
-function renderWeek(){
-  const d=new Date(curDate); d.setDate(d.getDate()-d.getDay());
-  const todayK=todayKey(); const names=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
-  const todayBorderColor=modeColor();
-  let html=`<div class="day-header">
-    <div class="day-title" style="background:${modeGrad()};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${mode==='work'?'💼':'🌸'} שבוע ${d.getDate()} ב${hebrewMonth(d.getMonth())}</div>
-    <div class="day-nav">
-      <button class="nav-btn" onclick="chWeek(-1)">◀ קודם</button>
-      <button class="nav-btn today-btn" style="background:${modeGrad()}" onclick="goToday()">השבוע ✨</button>
-      <button class="nav-btn" onclick="chWeek(1)">הבא ▶</button>
-    </div>
-  </div><div class="week-grid">`;
-  for(let i=0;i<7;i++){
-    const dd=new Date(d.getTime()+i*86400000);
-    const key=formatKey(dd); const tasks=getTasks(key); const isToday=key===todayK;
-    html+=`<div class="week-day-col" style="${isToday?`border-color:${todayBorderColor};background:${mode==='work'?'var(--work-bg)':'var(--personal-bg)'}`:''}" >
-      <div class="week-day-header" onclick="goToDay(new Date(${dd.getTime()}))">
-        <div class="week-day-name">${names[i]}</div>
-        <div class="week-day-num" style="${isToday?`color:${todayBorderColor}`:''}">${dd.getDate()}</div>
-      </div><div class="week-day-tasks">`;
-    tasks.forEach(t=>{html+=`<div class="week-task-chip ${t.done?'done':t.cat}" onclick="goToDay(new Date(${dd.getTime()}))" title="${t.title}">${t.time?t.time+' ':''}${catE(t.cat)} ${t.title}</div>`;});
-    html+=`<button class="week-add-btn" style="border-color:var(--border)" onclick="openAdd('${key}','')">+ הוסיפי</button></div></div>`;
-  }
-  return html+`</div>`;
-}
-
-// ── MONTH VIEW ──
-function renderMonth(){
-  const year=curMonth.getFullYear(); const month=curMonth.getMonth(); const todayK=todayKey();
-  const first=new Date(year,month,1); const last=new Date(year,month+1,0);
-  const mc=modeColor();
-  let html=`<div class="month-header">
-    <div class="month-title" style="color:${mc}">${mode==='work'?'💼':'🌸'} ${hebrewMonth(month)} ${year}</div>
-    <div class="day-nav">
-      <button class="nav-btn" onclick="chMonth(-1)">◀</button>
-      <button class="nav-btn today-btn" style="background:${modeGrad()}" onclick="goToday()">החודש</button>
-      <button class="nav-btn" onclick="chMonth(1)">▶</button>
-    </div>
-  </div><div class="month-grid-header">`;
-  ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'].forEach(d=>html+=`<div class="month-dow">${d}</div>`);
-  html+=`</div><div class="month-grid">`;
-  function cell(dd,other){
-    const k=formatKey(dd); const ts=getTasks(k); const show=ts.slice(0,3); const more=ts.length-3; const isT=k===todayK;
-    let c=`<div class="month-cell ${other?'other-month':''}" style="${isT?`border-color:${mc};background:${mode==='work'?'var(--work-bg)':'var(--personal-bg)'};box-shadow:0 4px 15px ${modeGlow()}`:''}" onclick="goToDay(new Date(${dd.getTime()}))">
-      <div class="month-cell-num" style="${isT?`color:${mc}`:''}">${isT?'📍':''} ${dd.getDate()}</div><div class="month-dot-list">`;
-    show.forEach(t=>{c+=`<div class="month-dot ${t.done?'done':t.cat}">${catE(t.cat)} ${t.title}</div>`;});
-    if(more>0)c+=`<div class="month-more">+${more}</div>`;
-    return c+`</div></div>`;
-  }
-  const off=first.getDay();
-  for(let i=0;i<off;i++) html+=cell(new Date(year,month,1-off+i),true);
-  for(let d=1;d<=last.getDate();d++) html+=cell(new Date(year,month,d),false);
-  const rem=(7-((off+last.getDate())%7))%7;
-  for(let i=1;i<=rem;i++) html+=cell(new Date(year,month+1,i),true);
-  return html+`</div>`;
-}
-
-// ── NAV ──
-function chDay(n){curDate=new Date(curDate.getTime()+n*86400000);render();}
-function chWeek(n){curDate=new Date(curDate.getTime()+n*7*86400000);render();}
-function chMonth(n){curMonth=new Date(curMonth.getFullYear(),curMonth.getMonth()+n,1);render();}
-function goToday(){curDate=new Date();curMonth=new Date();render();}
-function goToDay(d){curDate=new Date(d);switchTab(mode,'day');}
-
-// ── ADD MODAL ──
-function openAdd(key,time){
-  const cats=getCats();
-  const opts=Object.entries(cats).map(([k,v])=>`<option value="${k}">${v.e} ${v.l}</option>`).join('');
-  const isP=mode==='personal';
-  document.getElementById('modalOverlay').style.display='flex';
-  document.getElementById('modal').innerHTML=`
-    <div class="modal-title" style="background:${modeGrad()};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${isP?'🌸 אירוע חדש':'✨ משימה חדשה'}</div>
-    <div class="form-group"><label class="form-label">כותרת</label>
-      <input class="form-input" id="aTitle" placeholder="${isP?'חוג, רופא, מפגש...':'מה צריך לעשות?'}"></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">קטגוריה</label>
-        <select class="form-select" id="aCat" onchange="tglAF()">${opts}</select></div>
-      <div class="form-group"><label class="form-label">שעה</label>
-        <input class="form-input" id="aTime" type="time" value="${(time||'').replace(':00','')}"></div>
-    </div>
-    ${isP?`<div class="form-group"><label class="form-label">👶 ילד (אופציונלי)</label>
-      <input class="form-input" id="aChild" placeholder="שם הילד / כולם"></div>`:''}
-    <div class="form-group">
-      <label class="form-label">🔁 חזרה קבועה</label>
-      <select class="form-select" id="aRecurring" onchange="tglRecurring()">
-        <option value="none">ללא חזרה</option>
-        <option value="daily">כל יום</option>
-        <option value="weekdays">כל יום חול (א׳–ה׳)</option>
-        <option value="weekly">כל שבוע (אותו יום)</option>
-        <option value="specificdays">ימים ספציפיים בשבוע</option>
-        <option value="biweekly">כל שבועיים</option>
-        <option value="monthly">כל חודש</option>
-        <option value="custom">כל X ימים (מותאם אישית)</option>
-      </select>
-      <div id="recurringDays" style="display:none;margin-top:8px;display:none">
-        <div style="font-size:0.78rem;color:var(--text2);font-weight:700;margin-bottom:6px">בחרי ימים:</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap">
-          ${['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'].map((d,i)=>`
-          <label style="display:flex;align-items:center;gap:4px;background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:0.8rem;font-weight:700">
-            <input type="checkbox" value="${i}" id="rday${i}" style="accent-color:var(--work)"> ${d}
-          </label>`).join('')}
+  list.innerHTML = filtered.map(t => `
+    <div class="task-item cat-${t.cat} ${t.done?'done':''}">
+      <div class="task-check ${t.done?'checked':''}" onclick="toggleDone('${t.id}')"></div>
+      <div class="task-body">
+        <div class="task-title">${t.title}</div>
+        <div class="task-meta">
+          ${t.date?`<span>📅 ${t.date}</span>`:''}
+          ${t.time?`<span>🕐 ${t.time}</span>`:''}
+          ${t.reminder?`<span>🔔 ${t.reminder}ד'</span>`:''}
+          <span class="badge badge-${t.cat}">${catIcon(t.cat)} ${catLabel(t.cat)}</span>
         </div>
+        ${t.notes?`<div class="task-notes">${t.notes}</div>`:''}
       </div>
-      <div id="recurringCustom" style="display:none;margin-top:8px">
-        <div style="display:flex;align-items:center;gap:8px">
-          <span style="font-size:0.82rem;color:var(--text2);font-weight:600">כל</span>
-          <input class="form-input" id="aCustomDays" type="number" min="1" max="365" value="3" style="width:70px;text-align:center">
-          <span style="font-size:0.82rem;color:var(--text2);font-weight:600">ימים</span>
-        </div>
+      <div class="task-actions">
+        <button class="act-btn edit" onclick="openEdit('${t.id}')" title="עריכה">✏️</button>
+        <button class="act-btn del" onclick="deleteTask('${t.id}')" title="מחק">🗑</button>
       </div>
-      <div id="recurringEnd" style="display:none;margin-top:8px">
-        <label class="form-label">עד תאריך (אופציונלי)</label>
-        <input class="form-input" id="aRecurringEnd" type="date">
-      </div>
-    </div>
-    <div class="form-group"><label class="form-label">✉️ שפת מייל (אם יידרש)</label>
-      <select class="form-select" id="aLang">
-        <option value="auto">🤖 אוטומטי לפי סוג המשימה</option>
-        <option value="he">🇮🇱 עברית – ללקוח</option>
-        <option value="en">🇬🇧 אנגלית – לחברת תעופה / מלון</option>
-      </select></div>
-    <div id="airF" style="display:none"><div class="airline-section">
-      <div class="form-group"><label class="form-label">שם הנוסע</label><input class="form-input" id="aPax" placeholder="LASTNAME/FIRSTNAME" style="direction:ltr;font-family:monospace"></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">PNR</label><input class="form-input" id="aPnr" placeholder="9CEQ9E" style="direction:ltr;font-family:monospace;letter-spacing:2px" maxlength="8"></div>
-        <div class="form-group"><label class="form-label">חברות תעופה</label><input class="form-input" id="aAirlines" placeholder="Air Baltic, LOT" style="direction:ltr"></div>
-      </div>
-    </div></div>
-    <div id="hotelF" style="display:none"><div style="background:var(--hotel-bg);border:2px solid rgba(225,112,85,0.3);border-radius:12px;padding:14px;margin-bottom:4px">
-      <div class="form-group"><label class="form-label">👤 שם הלקוח</label><input class="form-input" id="aHotelClient" placeholder='לדוגמא: אייל שחף'></div>
-      <div class="form-group"><label class="form-label">🏨 שם המלון</label><input class="form-input" id="aHotelName" placeholder='לדוגמא: REVERB BY HARDROCK HAMBURG' style="direction:ltr"></div>
-      <div class="form-group"><label class="form-label">📍 כתובת (אופציונלי)</label><input class="form-input" id="aHotelAddress" placeholder='לדוגמא: Reeperbahn 1, 20359 Hamburg' style="direction:ltr"></div>
-      <div class="form-group"><label class="form-label">🛏️ סוג חדר</label><input class="form-input" id="aHotelRoom" placeholder='לדוגמא: Superior Room, 1 King Bed + Breakfast' style="direction:ltr"></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">💶 מחיר ללילה</label><input class="form-input" id="aHotelPrice" placeholder='לדוגמא: 235 EUR' style="direction:ltr"></div>
-        <div class="form-group"><label class="form-label">🌙 מס׳ לילות</label><input class="form-input" id="aHotelNights" placeholder='3' type="number" min="1"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">📅 צ׳ק אין</label><input class="form-input" id="aHotelIn" type="date"></div>
-        <div class="form-group"><label class="form-label">📅 צ׳ק אאוט</label><input class="form-input" id="aHotelOut" type="date"></div>
-      </div>
-      <div class="form-group"><label class="form-label">⚠️ ביטול חופשי עד</label><input class="form-input" id="aHotelCancel" placeholder='לדוגמא: 29.05.2026' style="direction:ltr"></div>
-      <div class="form-group" style="margin-bottom:0"><label class="form-label">💬 הערה לאישור (ברירת מחדל: "כולל ארוחת הבוקר 😊")</label><input class="form-input" id="aHotelExtra" placeholder='כולל ארוחת הבוקר 😊'></div>
-    </div></div>
-    <div id="bookingF" style="display:none"><div style="background:#f0eeff;border:2px solid rgba(108,92,231,0.3);border-radius:12px;padding:14px;margin-bottom:4px">
-      <div style="font-size:0.8rem;color:#6c5ce7;font-weight:700;margin-bottom:12px">הדביקי כאן את פרטי הנוסע + טיסות (טקסט חופשי מכל מקור)</div>
-      <textarea class="form-textarea" id="aBookingRaw" placeholder="GOLAN/ELIYAHU MR&#10;DOB: 08JUN51&#10;PASSPORT: 32756169 EXP: 19AUG28&#10;&#10;TLV-PRG 18MAY26 06:40&#10;PRG-TLV 21MAY26 09:10&#10;&#10;בקשת הלקוח..." style="min-height:160px;direction:ltr;font-family:monospace;font-size:0.8rem"></textarea>
-    </div></div>
-    <div class="form-group"><label class="form-label">הערות</label>
-      <textarea class="form-textarea" id="aNote" placeholder="כתובת, טלפון, פרטים..."></textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">ביטול</button>
-      <button class="btn btn-primary" style="background:${modeGrad()};box-shadow:0 4px 12px ${modeGlow()}" onclick="saveTask('${key}')">שמירה ✓</button>
-    </div>`;
-  setTimeout(()=>document.getElementById('aTitle')?.focus(),80);
-}
-
-function tglRecurring(){
-  const v=document.getElementById('aRecurring')?.value;
-  const days=document.getElementById('recurringDays');
-  const custom=document.getElementById('recurringCustom');
-  const end=document.getElementById('recurringEnd');
-  if(days) days.style.display=v==='specificdays'?'block':'none';
-  if(custom) custom.style.display=v==='custom'?'block':'none';
-  if(end) end.style.display=v==='none'?'none':'block';
-}
-function tglAF(){
-  const v=document.getElementById('aCat')?.value;
-  const af=document.getElementById('airF');    if(af) af.style.display=v==='airline'?'block':'none';
-  const hf=document.getElementById('hotelF');  if(hf) hf.style.display=v==='hotel'?'block':'none';
-  const bf=document.getElementById('bookingF');if(bf) bf.style.display=v==='booking'?'block':'none';
-}
-
-function saveTask(key){
-  const title=document.getElementById('aTitle').value.trim(); if(!title){alert('אנא הכניסי כותרת');return;}
-  const cat=document.getElementById('aCat').value;
-  const recurring=document.getElementById('aRecurring')?.value||'none';
-  const recurringEnd=document.getElementById('aRecurringEnd')?.value||'';
-  const customDays=parseInt(document.getElementById('aCustomDays')?.value||'3');
-  const specificDays=[0,1,2,3,4,5,6].filter(i=>document.getElementById('rday'+i)?.checked);
-
-  const t={id:uid(),title,cat,time:document.getElementById('aTime').value,note:document.getElementById('aNote').value,done:false,recurring,recurringEnd,customDays,specificDays};
-  const ch=document.getElementById('aChild'); if(ch&&ch.value.trim()) t.child=ch.value.trim();
-  const lg=document.getElementById('aLang'); if(lg) t.emailLang=lg.value;
-  if(cat==='airline'){t.passenger=document.getElementById('aPax')?.value.trim()||'';t.pnr=document.getElementById('aPnr')?.value.trim().toUpperCase()||'';t.airlines=(document.getElementById('aAirlines')?.value||'').split(',').map(s=>s.trim()).filter(Boolean);}
-  if(cat==='booking'){
-    t.bookingRaw=document.getElementById('aBookingRaw')?.value.trim()||'';
-    t.emailLang='he';
-  }
-  if(cat==='hotel'){
-    t.hotelClient=document.getElementById('aHotelClient')?.value.trim()||'';
-    t.hotelName=document.getElementById('aHotelName')?.value.trim()||'';
-    t.hotelAddress=document.getElementById('aHotelAddress')?.value.trim()||'';
-    t.hotelRoom=document.getElementById('aHotelRoom')?.value.trim()||'';
-    t.hotelPrice=document.getElementById('aHotelPrice')?.value.trim()||'';
-    t.hotelNights=document.getElementById('aHotelNights')?.value||'';
-    t.hotelIn=document.getElementById('aHotelIn')?.value||'';
-    t.hotelOut=document.getElementById('aHotelOut')?.value||'';
-    t.hotelCancel=document.getElementById('aHotelCancel')?.value.trim()||'';
-    t.hotelExtra=document.getElementById('aHotelExtra')?.value.trim()||'';
-    t.emailLang='he';
-  }
-
-  // Save to this day first
-  const ts=getTasks(key); ts.push(t); setTasks(key,ts);
-
-  // Propagate recurring for up to 1 year
-  if(recurring!=='none'){
-    const baseDate=new Date(key);
-    const endDate=recurringEnd?new Date(recurringEnd):new Date(baseDate.getTime()+365*86400000);
-
-    const getDates=()=>{
-      const dates=[];
-      let d=new Date(baseDate);
-      d.setDate(d.getDate()+1); // start from day after
-      while(d<=endDate){
-        let add=false;
-        if(recurring==='daily') add=true;
-        else if(recurring==='weekdays') add=d.getDay()>=1&&d.getDay()<=5;
-        else if(recurring==='weekly') add=d.getDay()===baseDate.getDay();
-        else if(recurring==='biweekly'){
-          const diff=Math.round((d-baseDate)/(86400000));
-          add=diff%14===0;
-        }
-        else if(recurring==='monthly') add=d.getDate()===baseDate.getDate();
-        else if(recurring==='specificdays') add=specificDays.includes(d.getDay());
-        else if(recurring==='custom'){
-          const diff=Math.round((d-baseDate)/(86400000));
-          add=diff%customDays===0;
-        }
-        if(add) dates.push(new Date(d));
-        d.setDate(d.getDate()+1);
-      }
-      return dates;
-    };
-
-    getDates().forEach(futureDate=>{
-      const fKey=formatKey(futureDate);
-      const fTasks=getTasks(fKey);
-      if(!fTasks.find(x=>x.title===t.title&&x.time===t.time)){
-        fTasks.push({...t,id:uid(),done:false,recurringParent:t.id});
-        setTasks(fKey,fTasks);
-      }
-    });
-  }
-  closeModal(); render();
-}
-
-// ── EDIT MODAL ──
-function openEdit(key,id){
-  const t=getTasks(key).find(x=>x.id===id); if(!t)return;
-  const cats=getCats();
-  const opts=Object.entries(cats).map(([k,v])=>`<option value="${k}" ${t.cat===k?'selected':''}>${v.e} ${v.l}</option>`).join('');
-  const isP=mode==='personal';
-  document.getElementById('modalOverlay').style.display='flex';
-  document.getElementById('modal').innerHTML=`
-    <div class="modal-title">✏️ עריכה</div>
-    <div class="form-group"><label class="form-label">כותרת</label><input class="form-input" id="eTitle" value="${t.title}"></div>
-    <div class="form-row">
-      <div class="form-group"><label class="form-label">קטגוריה</label>
-        <select class="form-select" id="eCat" onchange="tglEAF()">${opts}</select></div>
-      <div class="form-group"><label class="form-label">שעה</label><input class="form-input" id="eTime" type="time" value="${t.time||''}"></div>
-    </div>
-    ${isP?`<div class="form-group"><label class="form-label">👶 ילד</label><input class="form-input" id="eChild" value="${t.child||''}"></div>`:''}
-    <div id="eAirF" style="display:${t.cat==='airline'?'block':'none'}"><div class="airline-section">
-      <div class="form-group"><label class="form-label">שם הנוסע</label><input class="form-input" id="ePax" value="${t.passenger||''}" style="direction:ltr;font-family:monospace"></div>
-      <div class="form-row">
-        <div class="form-group"><label class="form-label">PNR</label><input class="form-input" id="ePnr" value="${t.pnr||''}" style="direction:ltr;font-family:monospace;letter-spacing:2px" maxlength="8"></div>
-        <div class="form-group"><label class="form-label">חברות תעופה</label><input class="form-input" id="eAirlines" value="${(t.airlines||[]).join(', ')}" style="direction:ltr"></div>
-      </div>
-    </div></div>
-    <div class="form-group"><label class="form-label">הערות</label><textarea class="form-textarea" id="eNote">${t.note||''}</textarea></div>
-    <div class="modal-actions">
-      <button class="btn btn-danger" onclick="delTask('${key}','${id}');closeModal()">🗑</button>
-      <button class="btn btn-secondary" onclick="closeModal()">ביטול</button>
-      <button class="btn btn-primary" style="background:${modeGrad()}" onclick="updateTask('${key}','${id}')">💾 שמירה</button>
-    </div>`;
-}
-
-function tglEAF(){const v=document.getElementById('eCat')?.value;const f=document.getElementById('eAirF');if(f)f.style.display=v==='airline'?'block':'none';}
-function updateTask(key,id){
-  const ts=getTasks(key); const t=ts.find(x=>x.id===id); if(!t)return;
-  t.title=document.getElementById('eTitle').value.trim()||t.title;
-  t.cat=document.getElementById('eCat').value; t.time=document.getElementById('eTime').value; t.note=document.getElementById('eNote').value;
-  const ch=document.getElementById('eChild'); if(ch) t.child=ch.value.trim();
-  if(t.cat==='airline'){t.passenger=document.getElementById('ePax')?.value.trim()||'';t.pnr=document.getElementById('ePnr')?.value.trim().toUpperCase()||'';t.airlines=(document.getElementById('eAirlines')?.value||'').split(',').map(s=>s.trim()).filter(Boolean);}
-  setTasks(key,ts); closeModal(); render();
-}
-
-function closeModal(){document.getElementById('modalOverlay').style.display='none';}
-
-// ── STYLE RULES (Maya's email preferences) ──
-const RULES_KEY='maya_email_rules_v1';
-function getRules(){try{return JSON.parse(localStorage.getItem(RULES_KEY))||defaultRules();}catch{return defaultRules();}}
-function saveRules(r){localStorage.setItem(RULES_KEY,JSON.stringify(r));}
-function defaultRules(){
-  return [
-    'שפה: תלוי בסוג המשימה – בהוספת משימה Maya בוחרת את שפת המייל (עברית / אנגלית / אחר)',
-    'סגנון: בינוני – מקצועי אבל חם ולא יבש. לא פורמלי מדי, לא רשמי מדי',
-    'חתימה ללקוחות (עברית): Many Thanks, Maya',
-    'חתימה לחברות תעופה/מלונות (אנגלית): Maya Kespi, Kaspee Group Travel, IATA: 37202465',
-    'מייל מלון ללקוח בעברית – פורמט קבוע: פתיחה "הי [שם]," + משפט חם קצר (כגון: "בהמשך לשיחות שלנו יש אישור כולל ארוחת הבוקר 😊") + שם המלון + סוג חדר + מחיר ללילה + תאריכי צ\'ק אין/אאוט + Free Cancellation until [תאריך] + חתימה Many Thanks, Maya',
-    'במיילים לחברות תעופה – לכלול PNR ושם הנוסע בולט, ולפרט את הבקשה בצורה ברורה ומספרית',
-    'במיילים ללקוחות – לכלול את כל פרטי ההזמנה: תאריכים, סוג חדר/טיסה, מחיר, תנאי ביטול',
-  ];
-}
-
-function openStyleRules(){
-  const rules=getRules();
-  document.getElementById('modalOverlay').style.display='flex';
-  document.getElementById('modal').innerHTML=`
-    <div class="modal-title">📋 חוקי הסגנון שלי</div>
-    <p style="font-size:0.83rem;color:var(--text2);margin-bottom:14px;line-height:1.5">אלו החוקים שמנחים את Claude בכתיבת המיילים שלך. ערכי, הוסיפי או מחקי לפי הצורך.</p>
-    <div id="rulesList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
-    <div style="display:flex;gap:8px;margin-bottom:6px">
-      <input class="form-input" id="newRuleInput" placeholder="הוסיפי חוק חדש..." style="flex:1" onkeydown="if(event.key==='Enter')addRule()">
-      <button class="btn btn-primary" style="background:${modeGrad()};padding:8px 14px;white-space:nowrap" onclick="addRule()">+ הוסיפי</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal()">סגירה</button>
-    </div>`;
-  renderRulesList();
-}
-
-function renderRulesList(){
-  const rules=getRules();
-  const el=document.getElementById('rulesList'); if(!el)return;
-  el.innerHTML=rules.map((r,i)=>`
-    <div style="display:flex;align-items:flex-start;gap:8px;background:var(--surface2);border:2px solid var(--border);border-radius:10px;padding:10px 12px">
-      <span style="font-size:0.85rem;color:var(--text);flex:1;line-height:1.4">${i+1}. ${r}</span>
-      <button onclick="deleteRule(${i})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.9rem;flex-shrink:0" title="מחיקה">✕</button>
     </div>`).join('');
 }
 
-function addRule(){
-  const inp=document.getElementById('newRuleInput'); if(!inp)return;
-  const text=inp.value.trim(); if(!text)return;
-  const rules=getRules(); rules.push(text); saveRules(rules); inp.value=''; renderRulesList();
+// EDIT MODAL
+function openEdit(id) {
+  const t = tasks.find(t=>t.id===id);
+  if (!t) return;
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-title').value = t.title;
+  document.getElementById('edit-date').value = t.date||'';
+  document.getElementById('edit-time').value = t.time||'';
+  document.getElementById('edit-cat').value = t.cat;
+  document.getElementById('edit-remind').value = t.reminder||'';
+  document.getElementById('edit-notes').value = t.notes||'';
+  document.getElementById('modal-overlay').classList.remove('hidden');
 }
 
-function deleteRule(i){
-  const rules=getRules(); rules.splice(i,1); saveRules(rules); renderRulesList();
+function closeModal() { document.getElementById('modal-overlay').classList.add('hidden'); }
+function closeModalIfBg(e) { if (e.target.id==='modal-overlay') closeModal(); }
+
+function setTomorrow() {
+  const d = new Date(); d.setDate(d.getDate()+1);
+  document.getElementById('edit-date').value = d.toISOString().split('T')[0];
 }
 
-// ── AI EMAIL – UNIVERSAL ──
-async function genEmail(key,taskId){
-  const t=getTasks(key).find(x=>x.id===taskId); if(!t)return;
-
-  // Always show modal first
-  document.getElementById('modalOverlay').style.display='flex';
-  document.getElementById('modal').innerHTML=`<div style="padding:30px;text-align:center;color:var(--text2)"><div style="font-size:1.5rem;margin-bottom:10px">✉️</div><div style="font-weight:700">מכינה מייל...</div></div>`;
-
-  // Hotel email – Maya's exact template
-  if(t.cat==='hotel'&&t.hotelName){
-    const clientName=t.hotelClient||'';
-    const firstName=clientName.split(' ')[0]||clientName||'';
-    const extra=t.hotelExtra||'כולל ארוחת הבוקר 😊';
-    const checkin=t.hotelIn?t.hotelIn.split('-').reverse().join('-').replace(/(\d{4})-(\d{2})-(\d{2})/,'$3-$2-$1'):t.hotelIn||'';
-    const checkout=t.hotelOut?t.hotelOut.split('-').reverse().join('-').replace(/(\d{4})-(\d{2})-(\d{2})/,'$3-$2-$1'):t.hotelOut||'';
-
-    const lines=[];
-    lines.push(`הי ${firstName},`);
-    lines.push('');
-    lines.push(`בהמשך לשיחות שלנו יש אישור ${extra}`);
-    lines.push('');
-    lines.push(t.hotelName);
-    if(t.hotelAddress) lines.push(t.hotelAddress);
-    lines.push(`${t.hotelRoom||''}${t.hotelPrice?' – '+t.hotelPrice+' per room per night':''}`);
-    lines.push('');
-    if(t.hotelIn)  lines.push(`» Check in:  ${checkin}`);
-    if(t.hotelOut) lines.push(`» Check out: ${checkout}`);
-    if(t.hotelCancel) lines.push(`Free Cancellation until – ${t.hotelCancel}`);
-    lines.push('');
-    lines.push('Many Thanks,');
-    lines.push('Maya');
-
-    showEmail(t,{lang:'he',to:clientName||'client@email.com',subject:`${t.hotelName} – אישור הזמנה`,body:lines.join('\n')});
-    return;
-  }
-
-  // Group hotel request – detected from note keywords
-  const isGroupRequest=/quote.*room|rooms.*quote|\d+\s*rooms?|קבוצה.*חדר|חדר.*קבוצה/i.test(note||t.title);
-  if(!isAirline && isGroupRequest){
-    const roomsMatch=(note||t.title).match(/(\d+)\s*rooms?/i);
-    const rooms=roomsMatch?roomsMatch[1]:'';
-    const destMatch=(note||'').match(/(?:destination|יעד)[:\s]+([^\n]+)/i);
-    const dest=destMatch?destMatch[1].trim():'';
-    const datesMatch=(note||'').match(/(?:dates?|תאריכים?)[:\s]+([^\n]+)/i);
-    const dates=datesMatch?datesMatch[1].trim():'';
-    const roomTypeMatch=(note||'').match(/(?:room type|סוג חדר)[:\s]+([^\n]+)/i);
-    const roomType=roomTypeMatch?roomTypeMatch[1].trim():'';
-    const locationMatch=(note||'').match(/(?:hotel.*?(?:near|close|within|from)|location|address)[:\s]+([^\n]+)/i);
-    const location=locationMatch?locationMatch[1].trim():'';
-    const bfMatch=/breakfast.*included|included.*breakfast|כולל ארוחת בוקר/i.test(note||'');
-
-    const bodyLines=[];
-    bodyLines.push(`I would love your help with a quote for ${rooms?rooms+' GROUP ROOMS':'GROUP ROOMS'}.`);
-    bodyLines.push('');
-    bodyLines.push('Here are the details:');
-    bodyLines.push('');
-    if(dest)      bodyLines.push(`Destination: ${dest}`);
-    if(location)  bodyLines.push(`Hotel location: ${location}`);
-    if(dates)     bodyLines.push(`Dates: ${dates}`);
-    if(rooms)     bodyLines.push(`Number of rooms: ${rooms}`);
-    if(roomType)  bodyLines.push(`Room type: ${roomType}`);
-    if(bfMatch)   bodyLines.push(`Breakfast: Included`);
-    bodyLines.push('');
-    bodyLines.push('Please let me know if you need any additional details.');
-
-    showEmail(t,{lang:'en',to:'groups@hotel.com',
-      subject:`Group Quote Request – ${rooms?rooms+' Rooms – ':''}${dest||t.title}`,
-      body:bodyLines.join('\n').trim()});
-    return;
-  }
-  if(t.cat==='booking'){
-    const raw=t.bookingRaw||t.note||'';
-    const lines=raw.split('\n').map(s=>s.trim()).filter(Boolean);
-
-    // ── NAME ──
-    let surname='', firstname='';
-    const nameSlash=raw.match(/([A-Z]{2,})\s*\/\s*([A-Z]{2,})/);
-    if(nameSlash){surname=nameSlash[1];firstname=nameSlash[2];}
-    else {
-      const nm=raw.match(/(?:name|שם)[:\s]+([A-Za-z]+)\s+([A-Za-z]+)/i);
-      if(nm){firstname=nm[1].toUpperCase();surname=nm[2].toUpperCase();}
-    }
-    const fullNameAmadeus=`${surname}/${firstname} MR`;
-
-    // ── PASSPORT ──
-    const ppMatch=raw.match(/PASSPORT[:\s]+([0-9A-Z]{6,9})/i)||raw.match(/(?:דרכון|PP)[:\s#]*([0-9A-Z]{6,9})/i);
-    const pp=ppMatch?ppMatch[1]:'';
-
-    // ── DOB ──
-    const dobMatch=raw.match(/(?:DOB|תאריך לידה|birth)[:\s]*(\d{2}[A-Z]{3}\d{2,4}|\d{2}[\/\.]\d{2}[\/\.]\d{2,4})/i);
-    let dob=dobMatch?dobMatch[1].toUpperCase():'';
-    // Convert DD/MM/YYYY → DDMMMYY
-    if(dob.includes('/')||dob.includes('.')){
-      const p=dob.split(/[\/\.]/);
-      const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-      dob=p[0]+months[parseInt(p[1])-1]+(p[2].length===4?p[2].slice(2):p[2]);
-    }
-
-    // ── EXPIRY ──
-    const expMatch=raw.match(/(?:exp(?:iry)?|תוקף)[:\s]*(\d{2}[A-Z]{3}\d{2,4}|\d{2}[\/\.]\d{2}[\/\.]\d{2,4})/i);
-    let exp=expMatch?expMatch[1].toUpperCase():'';
-    if(exp.includes('/')||exp.includes('.')){
-      const p=exp.split(/[\/\.]/);
-      const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-      exp=p[0]+months[parseInt(p[1])-1]+(p[2].length===4?p[2].slice(2):p[2]);
-    }
-
-    // ── GENDER ──
-    const genderMatch=raw.match(/(?:gender|sex|מין)[:\s]*([MF])\b/i)||raw.match(/\b([MF])\b/);
-    const gender=genderMatch?genderMatch[1].toUpperCase():'M';
-
-    // ── NATIONALITY ──
-    const natMatch=raw.match(/(?:nationality|nat|לאום|אזרחות)[:\s]*([A-Z]{2,3})/i);
-    const nat=(natMatch?natMatch[1]:'ISR').toUpperCase();
-
-    // ── ID NUMBER ──
-    const idMatch=raw.match(/(?:I\.?D\.?|ת\.?ז\.?|id\s*no)[:\s#.]*([0-9\-]{6,12})/i);
-    const idNum=idMatch?idMatch[1].replace(/\D/g,''):'';
-
-    // ── FLIGHTS ──
-    // Match lines/chunks with airport pairs and dates
-    const months3=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    const anCmds=[];
-    const routeDates=[];
-    const flightRe=/(\d{1,2})[\/\.\-]?([A-Z]{3}|\d{2})[\/\.\-]?(\d{0,4})\s*[:\-]?\s*([A-Z]{3})\s*[\-→>]+\s*([A-Z]{3})/gi;
-    let fm;
-    while((fm=flightRe.exec(raw))!==null){
-      const day=fm[1].padStart(2,'0');
-      const mon=isNaN(fm[2])?fm[2]:months3[parseInt(fm[2])-1];
-      const yr=fm[3]?fm[3].slice(-2):'26';
-      const from=fm[4].toUpperCase(), to=fm[5].toUpperCase();
-      anCmds.push(`AN${day}${mon}${yr}${from}${to}`);
-      routeDates.push({day,mon,yr,from,to});
-    }
-    // Also catch inline AN-style: AN18MAYTLVPRG
-    const anInline=raw.matchAll(/AN(\d{2}[A-Z]{3}\d{0,2}[A-Z]{6})/g);
-    for(const m of anInline){if(!anCmds.includes('AN'+m[1]))anCmds.push('AN'+m[1]);}
-
-    // Travel Booster route + dates
-    let tbRoute='', tbDates='';
-    if(routeDates.length>=2){
-      tbRoute=`${routeDates[0].from}-${routeDates[0].to}-${routeDates[routeDates.length-1].to}`;
-      tbDates=`${routeDates[0].day}${routeDates[0].mon}${routeDates[0].yr} – ${routeDates[routeDates.length-1].day}${routeDates[routeDates.length-1].mon}${routeDates[routeDates.length-1].yr}`;
-    } else if(anCmds.length>=2){
-      // Parse from AN commands
-      const parseAN=cmd=>{const m=cmd.match(/AN(\d{2})([A-Z]{3})\d{0,2}([A-Z]{3})([A-Z]{3})/);return m?{date:m[1]+m[2]+(m[2]?'26':''),from:m[3],to:m[4]}:null;};
-      const f=parseAN(anCmds[0]),l=parseAN(anCmds[anCmds.length-1]);
-      if(f&&l){tbRoute=`${f.from}-${f.to}-${l.to}`;tbDates=`${f.date} – ${l.date}`;}
-    }
-    // Fallback: extract from raw text
-    if(!tbRoute){
-      const routeM=raw.match(/([A-Z]{3})[\s\-→>]+([A-Z]{3})[\s\-→>]+([A-Z]{3})/);
-      if(routeM) tbRoute=`${routeM[1]}-${routeM[2]}-${routeM[3]}`;
-    }
-
-    // ── ORIGINAL REQUEST (Hebrew) ──
-    const hebrewLines=lines.filter(l=>/[\u0590-\u05FF]/.test(l));
-    const originalReq=hebrewLines.join('\n');
-
-    // ── BUILD OUTPUT ──
-    const out=[];
-
-    out.push('PASSENGER DETAILS');
-    let pdLine=`${fullNameAmadeus}`;
-    if(dob)    pdLine+=` DOB: ${dob}`;
-    if(nat)    pdLine+=` NATIONALITY: ${nat}`;
-    if(pp)     pdLine+=` PASSPORT: ${pp}`;
-    if(exp)    pdLine+=` EXP: ${exp}`;
-    if(idNum)  pdLine+=` ID: ${idNum}`;
-    if(gender) pdLine+=` GENDER: ${gender}`;
-    out.push(pdLine);
-    out.push('');
-
-    out.push('AMADEUS COMMANDS');
-    out.push(`NM1${fullNameAmadeus}`);
-    out.push(`SRDOCS YY HK1-P-${nat}-${pp}-${nat}-${dob}-${gender}-${exp}-${surname}-${firstname}`);
-    out.push('CONTACT (if needed)');
-    out.push('');
-
-    if(anCmds.length){
-      out.push('AN (FLIGHT REQUEST)');
-      out.push(anCmds.join(' '));
-      out.push('');
-    }
-
-    if(tbRoute||firstname){
-      out.push('TRAVEL BOOSTER DETAILS');
-      let tbLine=`NAME: ${firstname} ${surname}`;
-      if(tbRoute) tbLine+=` ROUTE: ${tbRoute}`;
-      if(tbDates) tbLine+=` DATES: ${tbDates}`;
-      out.push(tbLine);
-      out.push('');
-    }
-
-    if(originalReq){
-      out.push('ORIGINAL REQUEST (FULL TEXT)');
-      out.push(originalReq);
-    }
-
-    showEmail(t,{lang:'en',to:'amadeus',
-      subject:`הזמנה – ${firstname} ${surname}`,
-      body:out.join('\n').trim()});
-    return;
-  }
-  const isAirline=t.cat==='airline'||!!t.pnr;
-  const note=t.note||'';
-
-  // Smart hotel parser – detects hotel data pasted in note
-  const hasHotelData = note.match(/check.?in|check.?out|hotel|reservation|cancell/i) ||
-                       note.match(/EUR|USD|GBP|per night|per room/i);
-
-  if(!isAirline && hasHotelData){
-    const noteLines = note.split('\n').map(l=>l.trim()).filter(Boolean);
-
-    // Hotel name = first ALL-CAPS-ish line
-    const hotelNameLine = noteLines.find(l=>/^[A-Z][A-Z\s&\-']+$/.test(l) || /HOTEL|HARD ROCK|HILTON|MARRIOTT|SHERATON|HYATT|NOVOTEL|IBIS|PREMIER INN|RADISSON|CROWNE|REVERB/i.test(l));
-    const hotelName = hotelNameLine || t.title;
-
-    // Address = line after hotel name that looks like a street address
-    const hotelNameIdx = noteLines.indexOf(hotelNameLine);
-    const addressLine = (hotelNameIdx>=0 && noteLines[hotelNameIdx+1] &&
-      /\d/.test(noteLines[hotelNameIdx+1]) &&
-      !noteLines[hotelNameIdx+1].match(/check|EUR|cancel|»/i))
-      ? noteLines[hotelNameIdx+1] : '';
-
-    // Room + price line
-    const roomLine = noteLines.find(l=>/Superior|Deluxe|Standard|Junior|Executive|Classic|Suite|King|Twin|Double|Room/i.test(l));
-
-    // Check in/out
-    const checkinLine  = noteLines.find(l=>/check.?in/i.test(l));
-    const checkoutLine = noteLines.find(l=>/check.?out/i.test(l));
-    const checkin  = checkinLine  ? checkinLine.replace(/.*check.?in[:\s»]*/i,'').trim() : '';
-    const checkout = checkoutLine ? checkoutLine.replace(/.*check.?out[:\s»]*/i,'').trim() : '';
-
-    // Cancellation
-    const cancelLine = noteLines.find(l=>/cancel|free cancel/i.test(l));
-    const cancel = cancelLine ? cancelLine.replace(/.*until\s*[–\-]?\s*/i,'').trim() : '';
-
-    // Client name from title (e.g. "מלון לאייל")
-    const clientFromTitle = t.title.replace(/מלון\s*(ל|לקוח\s*)?/i,'').trim();
-    const firstName = clientFromTitle.split(' ')[0]||'';
-
-    const lines=[];
-    lines.push(`הי ${firstName},`);
-    lines.push('');
-    lines.push('בהמשך לשיחות שלנו יש אישור כולל ארוחת הבוקר 😊');
-    lines.push('');
-    lines.push(hotelName);
-    if(addressLine) lines.push(addressLine);
-    if(roomLine)    lines.push(roomLine);
-    lines.push('');
-    if(checkin)  lines.push(`» Check in:  ${checkin}`);
-    if(checkout) lines.push(`» Check out: ${checkout}`);
-    if(cancel)   lines.push(`Free Cancellation until – ${cancel}`);
-    lines.push('');
-    lines.push('Many Thanks,');
-    lines.push('Maya');
-
-    showEmail(t,{lang:'he',to:'client@email.com',
-      subject:`${hotelName} – אישור הזמנה`,
-      body:lines.join('\n').replace(/\n{3,}/g,'\n\n').trim()});
-    return;
-  }
-
-  let email;
-  if(isAirline){
-    const airlines=(t.airlines||[]).join(' / ')||'the airline';
-    const pax=t.passenger||t.title;
-    const pnr=t.pnr||'N/A';
-    const request=note||t.title;
-
-    const isWCHR   = /wchr|wheelchair|כיסא גלגל/i.test(request);
-    const isAVIH   = /avih|dog|cat|pet|כלב|חתול|כלוב|cage/i.test(request);
-    const isSSR    = /ssr|special service/i.test(request);
-    const isCancel = /cancel|ביטול/i.test(request);
-    const isName   = /name change|שינוי שם/i.test(request);
-
-    let subject='';
-    if(isWCHR)        subject=`WCHR Request – PNR ${pnr} – ${pax}`;
-    else if(isAVIH)   subject=`AVIH Update – PNR ${pnr}`;
-    else if(isSSR)    subject=`SSR Amendment – PNR ${pnr}`;
-    else if(isCancel) subject=`Cancellation Request – PNR ${pnr}`;
-    else if(isName)   subject=`Name Change – PNR ${pnr}`;
-    else              subject=`PNR ${pnr} – Service Request`;
-
-    // Translate Hebrew request to English
-    let bodyContent=request
-      .replace(/כלב נפטר|הכלב נפטר/gi,'the dog has passed away')
-      .replace(/חתול|חתולים/gi,'cat(s)')
-      .replace(/כלב|כלבים/gi,'dog(s)')
-      .replace(/לעדכן|לשנות|לתקן/gi,'please update')
-      .replace(/במקום/gi,'instead of')
-      .replace(/כלוב|כלובים/gi,'cage(s)')
-      .replace(/בטן המטוס/gi,'in the aircraft hold')
-      .replace(/משקל/gi,'weight')
-      .replace(/תודה רבה/gi,'')
-      .replace(/מיה|מאיה/gi,'')
-      .trim();
-
-    email={lang:'en',
-      to: isAVIH?'petdesk@airline.com':isWCHR?'specialservices@airline.com':'reservations@airline.com',
-      subject,
-      body:`Hi,\n\nPlease help to update the ${isAVIH?'AVIH':isWCHR?'WCHR':isSSR?'SSR':'booking'} details for PNR ${pnr}${t.airlines&&t.airlines.length?', flight '+t.airlines.join('/')+'.':'.'}  \n\n${bodyContent}\n\nPlease confirm once updated.\n\nThank you for your assistance and understanding.\n\nBest regards,\nMaya\nIATA: 37202465`};
-  } else {
-    email={lang:'he',to:'client@email.com',
-      subject:t.title,
-      body:`הי,\n\nבהמשך לפנייתך,\n\n${note||t.title}\n\nלכל שאלה אני כאן!\n\nMany Thanks,\nMaya`};
-  }
-  showEmail(t,email);
+function saveEdit() {
+  const id = document.getElementById('edit-id').value;
+  const t = tasks.find(t=>t.id===id);
+  if (!t) return;
+  t.title = document.getElementById('edit-title').value.trim() || t.title;
+  t.date = document.getElementById('edit-date').value;
+  t.time = document.getElementById('edit-time').value;
+  t.cat = document.getElementById('edit-cat').value;
+  t.reminder = document.getElementById('edit-remind').value;
+  t.notes = document.getElementById('edit-notes').value.trim();
+  closeModal();
+  saveToCloud();
+  toast('✅ המשימה עודכנה!');
 }
 
-function showEmail(t,e){
-  const isHe=e.lang==='he'||(!e.lang&&true);
-  const previewBg=e.lang==='en'?'var(--airline-bg)':'var(--work-bg)';
-  const previewBorder=e.lang==='en'?'var(--airline)':'var(--work)';
-  const bodyDir=e.lang==='en'?'ltr':'rtl';
-  const bodyAlign=e.lang==='en'?'left':'right';
-
-  document.getElementById('modal').innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
-      <div class="modal-title" style="margin-bottom:0">✉️ מייל מוכן ${t.pnr?`<span style="color:var(--airline);font-family:monospace;font-size:0.85rem">${t.pnr}</span>`:''}</div>
-      <button onclick="openStyleRules()" style="display:flex;align-items:center;gap:5px;background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:5px 11px;font-family:'Heebo',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;color:var(--text2)">📋 חוקי הסגנון שלי</button>
-    </div>
-    <div style="background:${previewBg};border:2px solid ${previewBorder};border-radius:var(--radius-sm);padding:16px;direction:ltr">
-      <div style="margin-bottom:10px">
-        <div style="font-size:0.7rem;color:${previewBorder};font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">To</div>
-        <div style="font-size:0.85rem;color:var(--text);font-family:'Courier New',monospace" id="eTo">${e.to}</div>
-      </div>
-      <div style="margin-bottom:10px">
-        <div style="font-size:0.7rem;color:${previewBorder};font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">Subject</div>
-        <div style="font-size:0.85rem;color:var(--text);font-family:'Courier New',monospace;font-weight:700" id="eSubj">${e.subject}</div>
-      </div>
-      <div>
-        <div style="font-size:0.7rem;color:${previewBorder};font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:3px">Body ✏️ ניתן לערוך</div>
-        <textarea id="eBody" style="width:100%;background:white;border:2px solid var(--border);border-radius:8px;padding:12px;font-size:0.82rem;color:var(--text);line-height:1.7;font-family:'Courier New',monospace;direction:${bodyDir};text-align:${bodyAlign};min-height:200px;resize:vertical;outline:none">${e.body}</textarea>
-      </div>
-    </div>
-    <div style="background:var(--surface2);border:2px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:10px">
-      <div style="font-size:0.75rem;color:var(--text2);font-weight:700;margin-bottom:6px">💡 לאחר שתתקני – שמרי את התיקון כחוק:</div>
-      <div style="display:flex;gap:8px">
-        <input id="newRuleQuick" class="form-input" placeholder='למשל: "תמיד לכתוב בגוף ראשון רבים"' style="flex:1;font-size:0.82rem;padding:7px 11px">
-        <button onclick="saveQuickRule()" style="background:${modeGrad()};border:none;border-radius:8px;color:#fff;font-family:'Heebo',sans-serif;font-size:0.78rem;font-weight:700;padding:7px 12px;cursor:pointer;white-space:nowrap">+ שמרי חוק</button>
-      </div>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px">
-      <div style="display:flex;gap:8px">
-        <button class="copy-btn" id="cpBtn" onclick="cpAll()" style="border-color:${previewBorder};color:${previewBorder}">📋 העתיקי הכל</button>
-        <button class="copy-btn" onclick="cpBody()" style="border-color:${previewBorder};color:${previewBorder}">📄 גוף בלבד</button>
-      </div>
-      <button class="btn btn-secondary" onclick="closeModal()">סגירה</button>
+// CALENDAR
+function renderCal() {
+  const y = calMonth.getFullYear(), m = calMonth.getMonth();
+  document.getElementById('cal-title').textContent = MONTHS[m] + ' ' + y;
+  document.getElementById('cal-headers').innerHTML = DAYS_HE.map(d=>`<div class="cal-day-hdr">${d}</div>`).join('');
+  const first = new Date(y,m,1).getDay();
+  const daysInMonth = new Date(y,m+1,0).getDate();
+  const prevDays = new Date(y,m,0).getDate();
+  const today = new Date().toISOString().split('T')[0];
+  let cells = '';
+  for (let i=0;i<first;i++) {
+    cells += `<div class="cal-cell other"><div class="cal-num">${prevDays-first+1+i}</div></div>`;
+  }
+  for (let d=1;d<=daysInMonth;d++) {
+    const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = ds===today;
+    const dayTasks = tasks.filter(t=>t.date===ds);
+    const dots = dayTasks.slice(0,3).map(t=>`<div class="cal-ev ${t.cat}">${t.title}</div>`).join('');
+    cells += `<div class="cal-cell ${isToday?'today':''}" onclick="pickDate('${ds}')">
+      <div class="cal-num">${d}</div>${dots}
     </div>`;
+  }
+  document.getElementById('cal-body').innerHTML = cells;
 }
 
-function saveQuickRule(){
-  const inp=document.getElementById('newRuleQuick'); if(!inp)return;
-  const text=inp.value.trim(); if(!text)return;
-  const rules=getRules(); rules.push(text); saveRules(rules); inp.value='';
-  inp.placeholder='✅ נשמר! המייל הבא יכלול את החוק הזה';
-  setTimeout(()=>{if(inp)inp.placeholder='למשל: "תמיד לכתוב בגוף ראשון רבים"';},2500);
+function changeMonth(d) { calMonth.setMonth(calMonth.getMonth()+d); renderCal(); }
+
+function pickDate(date) {
+  document.getElementById('f-date').value = date;
+  const addTab = document.querySelectorAll('.tab')[2];
+  showTab('add', addTab);
 }
 
-function cpAll(){const to=document.getElementById('eTo')?.textContent||'';const s=document.getElementById('eSubj')?.textContent||'';const b=document.getElementById('eBody')?.value||'';navigator.clipboard.writeText(`To: ${to}\nSubject: ${s}\n\n${b}`).catch(()=>{});const btn=document.getElementById('cpBtn');if(btn){btn.textContent='✅ הועתק!';btn.classList.add('copied');setTimeout(()=>{btn.textContent='📋 העתיקי הכל';btn.classList.remove('copied');},2000);}}
-function cpBody(){navigator.clipboard.writeText(document.getElementById('eBody')?.value||'').catch(()=>{});}
-
-// ── TODOS ──
-function addTodo(){const inp=document.getElementById('weekTodoInput');const text=inp.value.trim();if(!text)return;const todos=getTodos();todos.unshift({id:uid(),text,done:false});saveTodos();inp.value='';renderTodos();}
-function toggleTodo(id){const todos=getTodos();const t=todos.find(x=>x.id===id);if(t){t.done=!t.done;saveTodos();renderTodos();}}
-function delTodo(id){const todos=getTodos();const i=todos.findIndex(x=>x.id===id);if(i>-1){todos.splice(i,1);saveTodos();renderTodos();}}
-function renderTodos(){
-  const list=document.getElementById('weekTodoList'); if(!list)return;
-  const todos=getTodos();
-  if(!todos.length){list.innerHTML=`<div style="font-size:0.8rem;color:var(--text3);text-align:center;padding:12px">רשימה ריקה 🎉</div>`;return;}
-  list.innerHTML=todos.map(t=>`<div class="todo-item ${t.done?'done-todo':''}">
-    <div class="todo-check ${t.done?'checked':''}" onclick="toggleTodo('${t.id}')">${t.done?'✓':''}</div>
-    <div class="todo-text">${t.text}</div>
-    <button class="todo-delete" onclick="delTodo('${t.id}')">✕</button>
-  </div>`).join('');
+// ADD TASK
+function addTask() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { toast('⚠️ חובה להזין כותרת'); return; }
+  const task = {
+    id: Date.now().toString(), title,
+    date: document.getElementById('f-date').value,
+    time: document.getElementById('f-time').value,
+    cat: document.getElementById('f-cat').value,
+    reminder: document.getElementById('f-remind').value,
+    notes: document.getElementById('f-notes').value.trim(),
+    done: false
+  };
+  tasks.push(task);
+  saveToCloud();
+  clearForm();
+  toast('✅ נשמר בענן!');
 }
 
-// ── STATS ──
-function renderStats(){
-  const el=document.getElementById('miniStats'); if(!el)return;
-  const ts=getTasks(todayKey());
-  const done=ts.filter(t=>t.done).length; const total=ts.length;
-  const cats=getCats(); const keys=Object.keys(cats);
-  const c1=ts.filter(t=>t.cat===keys[0]).length;
-  const c2=ts.filter(t=>t.cat===keys[1]).length;
-  const col1=mode==='work'?'var(--work)':'var(--p-kids)';
-  const col2=mode==='work'?'var(--urgent)':'var(--p-health)';
-  el.innerHTML=`
-    <div class="mini-stat"><div class="mini-stat-num" style="color:var(--done)">${done}/${total}</div><div class="mini-stat-label">✅ הושלמו</div></div>
-    <div class="mini-stat"><div class="mini-stat-num" style="color:${col1}">${c1}</div><div class="mini-stat-label">${cats[keys[0]].e} ${cats[keys[0]].l}</div></div>
-    <div class="mini-stat"><div class="mini-stat-num" style="color:${col2}">${c2}</div><div class="mini-stat-label">${cats[keys[1]].e} ${cats[keys[1]].l}</div></div>
-    <div class="mini-stat"><div class="mini-stat-num" style="color:var(--urgent)">${getTodos().filter(t=>!t.done).length}</div><div class="mini-stat-label">📝 ברשימה</div></div>`;
+function clearForm() {
+  ['f-title','f-notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('f-time').value='';
+  document.getElementById('f-cat').value='work';
+  document.getElementById('f-remind').value='';
 }
 
-// ── INIT ──
-// Migrate old data if exists
-(function migrateLegacyData(){
-  try{
-    const oldWork=localStorage.getItem('m_work_v1');
-    const oldPers=localStorage.getItem('m_pers_v1');
-    // Already current keys – nothing to migrate
-    if(oldWork&&Object.keys(JSON.parse(oldWork)).length>0) return;
-    // Try even older keys
-    const legacy=['maya_planner_v3','maya_planner_v2','maya_planner_v1'];
-    for(const k of legacy){
-      const d=localStorage.getItem(k);
-      if(d){const parsed=JSON.parse(d);if(Object.keys(parsed).length>0){workData=parsed;sd('m_work_v1',workData);break;}}
-    }
-  }catch(e){}
-})();
+function toggleDone(id) {
+  const t = tasks.find(t=>t.id===id);
+  if (t) { t.done=!t.done; saveToCloud(); renderTasks(); }
+}
 
-// Add Maya's tasks if personal data is fresh (no tasks yet beyond seed)
-(function addMayasTasks(){
-  // Work tasks – add to today if not already there
-  const today=todayKey();
-  const wt=workData[today]||[];
-  const existingTitles=wt.map(t=>t.title);
+function deleteTask(id) {
+  if (!confirm('למחוק את המשימה?')) return;
+  tasks = tasks.filter(t=>t.id!==id);
+  saveToCloud(); renderTasks();
+}
 
-  const newWorkTasks=[
-    {title:'מלון לענת דרורי',cat:'work',note:'לשלוח הצעת מחיר',emailLang:'he'},
-    {title:'לדבר עם ענת שחם',cat:'work',note:'',emailLang:'he'},
-    {title:'הצעת מחיר לדרור נפטלי',cat:'work',note:'',emailLang:'he'},
-    {title:'אלכס דולבי – לבקש עדכון כרטוס',cat:'work',note:'',emailLang:'he'},
-  ];
-  newWorkTasks.forEach(t=>{
-    if(!existingTitles.includes(t.title)){
-      wt.push({id:uid(),...t,done:false,recurring:'none'});
-    }
+// CLOUD
+async function callAPI(sys, msg) {
+  const res = await fetch(API_URL, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-20250514', max_tokens:1000,
+      system: sys, messages:[{role:'user',content:msg}],
+      mcp_servers:[{type:'url',url:'https://drivemcp.googleapis.com/mcp/v1',name:'gdrive'}]
+    })
   });
-  workData[today]=wt; sd('m_work_v1',workData);
+  return res.json();
+}
 
-  // Personal one-time tasks
-  const pt=personalData[today]||[];
-  const existingP=pt.map(t=>t.title);
-  const newPersTasks=[
-    {title:'לקבוע שיננית לכולם',cat:'health',note:''},
-    {title:'אורתודנט לנוגה',cat:'health',note:''},
-    {title:'לקנות מדרסים לילדים',cat:'kids',note:''},
-    {title:'לקבוע פיזיותרפיה',cat:'health',note:''},
-    {title:'לבדוק רטלין ליהלי',cat:'health',note:''},
-    {title:'לבדוק מה קורה עם ההשקיה בגינה',cat:'other',note:'למה לא עובד'},
-    {title:'לבדוק מתי הורה מלווה בחוות הנוי',cat:'school',note:''},
-  ];
-  newPersTasks.forEach(t=>{
-    if(!existingP.includes(t.title)){
-      pt.push({id:uid(),...t,done:false,recurring:'none'});
-    }
-  });
-  personalData[today]=pt; sd('m_pers_v1',personalData);
+async function saveToCloud() {
+  setSyncStatus('saving'); renderTasks();
+  try {
+    const content = JSON.stringify({tasks, updated:new Date().toISOString()});
+    const data = await callAPI(
+      `You are a Google Drive file manager. Save JSON data to a file named "${FILE_NAME}".
+If fileId is provided update it, otherwise create new. Respond ONLY with JSON (no markdown): {"fileId":"...","status":"ok"}`,
+      `Save. fileId:${fileId||'null'}. Content:${content}`
+    );
+    const txt = (data.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
+    try {
+      const p = JSON.parse(txt.replace(/```json|```/g,'').trim());
+      if (p.fileId) { fileId=p.fileId; localStorage.setItem('planner_file_id',fileId); }
+    } catch {}
+    setSyncStatus('ok');
+  } catch { setSyncStatus('error'); toast('❌ שגיאת שמירה'); }
+}
 
-  // Recurring weekly tasks – add from this Sunday for 12 weeks
-  const sunday=new Date(); sunday.setDate(sunday.getDate()-sunday.getDay());
+async function loadFromCloud() {
+  setSyncStatus('loading');
+  try {
+    const data = await callAPI(
+      `You are a Google Drive file manager. Find file "${FILE_NAME}" and return its raw JSON content only (no markdown). If not found return {"tasks":[],"updated":null}`,
+      `Load planner. Known fileId:${fileId||'null'}`
+    );
+    const txt = (data.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
+    try {
+      const p = JSON.parse(txt.replace(/```json|```/g,'').trim());
+      tasks = p.tasks||[];
+    } catch { tasks=[]; }
+    setSyncStatus('ok');
+  } catch { tasks=[]; setSyncStatus('error'); }
+  renderTasks(); renderCal();
+}
 
-  const weeklyTasks=[
-    {title:'צופים – נוגה',cat:'kids',time:'16:00',child:'נוגה',note:''},
-    {title:'חוג כדורסל – יהלי',cat:'kids',time:'17:00',child:'יהלי',note:''},
-    {title:'נינג׳טסו – זיו',cat:'kids',time:'16:30',child:'זיו',note:''},
-    {title:'בייסבול – זיו',cat:'kids',time:'18:00',child:'זיו',note:''},
-    {title:'כדורשת – נוגה',cat:'kids',time:'17:00',child:'נוגה',note:''},
-  ];
-
-  weeklyTasks.forEach(task=>{
-    for(let w=0;w<12;w++){
-      const d=new Date(sunday); d.setDate(d.getDate()+w*7);
-      const k=formatKey(d);
-      const dayTasks=personalData[k]||[];
-      if(!dayTasks.find(x=>x.title===task.title)){
-        dayTasks.push({id:uid(),...task,done:false,recurring:'weekly',emailLang:'auto'});
-        personalData[k]=dayTasks;
-      }
-    }
-  });
-  sd('m_pers_v1',personalData);
-})();
-
-switchTab('work','day');
+clearForm();
+loadFromCloud();
 </script>
 </body>
 </html>
